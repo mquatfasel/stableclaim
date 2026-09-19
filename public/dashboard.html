@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StableClaim – Gastrozentrale</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brandwrap sidebar-brand">
+        <div class="brand">Stable<span class="bracket">Claim</span></div>
+        <small>Gastrozentrale</small>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <button class="nav-item" data-view="uebersicht" type="button">Übersicht</button>
+        <button class="nav-item" data-view="kalender" type="button">Kalender</button>
+        <button class="nav-item" data-view="kalkulation" type="button">Kalkulation</button>
+        <button class="nav-item" data-view="rezepturen" type="button">Rezepturen</button>
+        <button class="nav-item" data-view="artikelstamm" type="button">Artikelstamm</button>
+        <button class="nav-item" data-view="allergene" type="button">Allergene</button>
+        <button class="nav-item" data-view="haccp" type="button">HACCP</button>
+        <button class="nav-item" data-view="reinigung" type="button">Reinigungspläne</button>
+        <button class="nav-item" data-view="email" type="button">E-Mail</button>
+        <button class="nav-item" data-view="dokumente" type="button">Dokumente</button>
+        <button class="nav-item" data-view="support" type="button">Support</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="account-card">
+          <div class="account-avatar" id="acc-avatar">–</div>
+          <div>
+            <strong id="acc-name" class="sidebar-name">–</strong>
+            <small id="acc-meta" class="sidebar-meta">–</small>
+          </div>
+        </div>
+        <a class="btn-ghost sidebar-link" href="/index.html#preise">Abo verwalten</a>
+        <button class="btn-ghost" id="btn-logout" type="button">Abmelden</button>
+      </div>
+    </aside>
+
+    <main class="content">
+
+      <!-- Übersicht -->
+      <section id="view-uebersicht" class="view">
+        <header class="view-head">
+          <h1>Übersicht</h1>
+          <p>Was heute im Betrieb ansteht.</p>
+        </header>
+        <div class="signal-grid">
+          <article class="signal-card"><span class="dot"></span>3 Artikel wurden teurer.</article>
+          <article class="signal-card"><span class="dot"></span>2 Gerichte überschreiten den gewünschten Wareneinsatz.</article>
+          <article class="signal-card"><span class="dot warn"></span>Temperaturkontrolle Kühlhaus fehlt.</article>
+          <article class="signal-card"><span class="dot"></span>Bankettanfrage für Samstag noch nicht beantwortet.</article>
+          <article class="signal-card"><span class="dot"></span>Rinderfilet ist aktuell 8,4&nbsp;% teurer als im Vormonat.</article>
+        </div>
+        <p class="hint">Beispieldaten zur Vorschau des Bedienkonzepts — echte Datenanbindung folgt Modul für Modul.</p>
+      </section>
+
+      <!-- Kalender -->
+      <section id="view-kalender" class="view">
+        <header class="view-head">
+          <h1>Kalender</h1>
+          <p>Veranstaltungen, Aufgaben und Lieferungen im Überblick.</p>
+        </header>
+        <div class="kalender-layout">
+          <div class="card kalender-card">
+            <div class="kalender-head">
+              <button class="btn-ghost" id="kal-prev" type="button">‹</button>
+              <h3 class="mono" id="kal-monat-label">–</h3>
+              <button class="btn-ghost" id="kal-next" type="button">›</button>
+            </div>
+            <div class="kalender-weekdays">
+              <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+            </div>
+            <div class="kalender-grid" id="kal-grid"></div>
+          </div>
+          <div class="card kalender-google">
+            <h3>Google Kalender</h3>
+            <p class="hint" id="kal-embed-hint">Verbinde diesen Bereich mit deinem echten Google Kalender.</p>
+            <div id="kal-embed-wrap"></div>
+            <a class="btn-primary sidebar-link" id="kal-google-link" href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener">
+              <span>Google Kalender öffnen</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kalkulation -->
+      <section id="view-kalkulation" class="view">
+        <header class="view-head">
+          <h1>Kalkulation</h1>
+          <p>Baukasten für Gerichte und Buffets — Komponenten hinzufügen, Mengen mit dem Schieberegler anpassen, direkt kalkulieren.</p>
+        </header>
+
+        <div class="tabs" role="tablist" id="kalk-typ-tabs">
+          <button class="tab-btn" data-kalk-typ="gericht" role="tab" aria-selected="true" type="button">Gerichte</button>
+          <button class="tab-btn" data-kalk-typ="buffet" role="tab" aria-selected="false" type="button">Buffet</button>
+        </div>
+
+        <div class="kalk-layout">
+          <div class="card kalk-builder">
+            <div class="field">
+              <label for="kalk-name">Name</label>
+              <input id="kalk-name" type="text" placeholder="z. B. Sommer-Buffet Meyer">
+            </div>
+
+            <div class="slider-field">
+              <label>Portionen <span class="mono" id="kalk-portionen-val">20</span></label>
+              <input id="kalk-portionen" type="range" min="1" max="200" value="20">
+            </div>
+
+            <div class="slider-field">
+              <label>Ziel-Wareneinsatzquote <span class="mono" id="kalk-quote-val">30&nbsp;%</span></label>
+              <input id="kalk-quote" type="range" min="15" max="45" value="30">
+            </div>
+
+            <div class="kalk-add-row">
+              <select id="kalk-komponente-select"></select>
+              <input id="kalk-menge-input" type="number" min="0" step="0.01" placeholder="Menge/Portion">
+              <span class="mono" id="kalk-menge-einheit">kg</span>
+              <button class="btn-ghost" id="kalk-add-btn" type="button">+ Hinzufügen</button>
+            </div>
+
+            <table class="kalk-table" id="kalk-table">
+              <thead>
+                <tr><th>Komponente</th><th>Menge/Portion</th><th>Menge gesamt</th><th>Preis gesamt</th><th></th></tr>
+              </thead>
+              <tbody id="kalk-rows"></tbody>
+            </table>
+            <p class="hint" id="kalk-empty-hint">Noch keine Komponenten hinzugefügt.</p>
+
+            <div class="kalk-summary">
+              <div><span>Wareneinsatz gesamt</span><strong class="mono" id="kalk-sum-gesamt">0,00&nbsp;€</strong></div>
+              <div><span>Wareneinsatz / Portion</span><strong class="mono" id="kalk-sum-portion">0,00&nbsp;€</strong></div>
+              <div><span>Empf. Verkaufspreis / Portion</span><strong class="mono" id="kalk-sum-vk">0,00&nbsp;€</strong></div>
+              <div><span>Deckungsbeitrag / Portion</span><strong class="mono" id="kalk-sum-db">0,00&nbsp;€</strong></div>
+            </div>
+
+            <div class="kalk-actions">
+              <button class="btn-primary" id="kalk-save-btn" type="button">Kalkulation speichern</button>
+              <button class="btn-ghost" id="kalk-email-btn" type="button">Als E-Mail versenden</button>
+              <button class="btn-ghost" id="kalk-reset-btn" type="button">Neu</button>
+            </div>
+            <div class="status-line" id="kalk-status"></div>
+          </div>
+
+          <div class="card kalk-list">
+            <h3 id="kalk-list-title">Gespeicherte Gerichte</h3>
+            <div id="kalk-saved-list"></div>
+            <p class="hint" id="kalk-saved-empty" hidden>Noch nichts gespeichert.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Platzhalter-Module -->
+      <section id="view-rezepturen" class="view placeholder-view" data-title="Rezepturen" data-text="Rezepturdatenbank mit Skalierung folgt hier."></section>
+      <section id="view-artikelstamm" class="view placeholder-view" data-title="Artikelstamm" data-text="Zentrale Artikeldaten inkl. Preisverlauf folgen hier."></section>
+      <section id="view-allergene" class="view placeholder-view" data-title="Allergene" data-text="Automatische Allergen- und Zusatzstoffübersicht folgt hier."></section>
+      <section id="view-haccp" class="view placeholder-view" data-title="HACCP" data-text="Temperaturkontrollen und Abweichungsmanagement folgen hier."></section>
+      <section id="view-reinigung" class="view placeholder-view" data-title="Reinigungspläne" data-text="Reinigungspläne je Betriebsbereich folgen hier."></section>
+      <section id="view-email" class="view placeholder-view" data-title="E-Mail" data-text="Zentraler Posteingang für Kundenanfragen folgt hier."></section>
+      <section id="view-dokumente" class="view placeholder-view" data-title="Dokumente" data-text="Dokumentenarchiv mit KI-Suche folgt hier."></section>
+      <section id="view-support" class="view placeholder-view" data-title="Support" data-text="Wissensdatenbank und interne Anfragen folgen hier."></section>
+
+    </main>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="/dashboard.js"></script>
+</body>
+</html>
+
