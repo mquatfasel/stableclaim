@@ -9,11 +9,38 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
+const COMPONENTS_FILE = path.join(DATA_DIR, 'components.json');
+const KALKULATIONEN_FILE = path.join(DATA_DIR, 'kalkulationen.json');
+
+// Beispiel-Komponenten für den Kalkulations-Baukasten (Gerichte & Buffet).
+// Das sind bewusst Platzhalterdaten, bis der echte Artikelstamm (siehe README,
+// Abschnitt "Nächste Schritte") angebunden ist — Struktur ist aber identisch
+// zu einem künftigen Artikelstamm-Eintrag (Name, Kategorie, Einheit, Preis).
+const DEFAULT_COMPONENTS = [
+  { id: 'rinderfilet', name: 'Rinderfilet', kategorie: 'Fleisch', einheit: 'kg', preisProEinheit: 32.0 },
+  { id: 'haehnchenbrust', name: 'Hähnchenbrust', kategorie: 'Fleisch', einheit: 'kg', preisProEinheit: 8.4 },
+  { id: 'schweinenacken', name: 'Schweinenacken', kategorie: 'Fleisch', einheit: 'kg', preisProEinheit: 7.9 },
+  { id: 'lachsfilet', name: 'Lachsfilet', kategorie: 'Fisch', einheit: 'kg', preisProEinheit: 15.72 },
+  { id: 'garnelen', name: 'Garnelen', kategorie: 'Fisch', einheit: 'kg', preisProEinheit: 19.5 },
+  { id: 'kartoffeln', name: 'Kartoffeln', kategorie: 'Beilage', einheit: 'kg', preisProEinheit: 1.1 },
+  { id: 'kartoffelgratin', name: 'Kartoffelgratin (Unterrezeptur)', kategorie: 'Beilage', einheit: 'kg', preisProEinheit: 3.4 },
+  { id: 'rotkohl', name: 'Rotkohl', kategorie: 'Beilage', einheit: 'kg', preisProEinheit: 2.6 },
+  { id: 'caesar-dressing', name: 'Caesar Dressing', kategorie: 'Sauce', einheit: 'l', preisProEinheit: 5.4 },
+  { id: 'pfeffersauce', name: 'Pfeffersauce (Unterrezeptur)', kategorie: 'Sauce', einheit: 'l', preisProEinheit: 6.8 },
+  { id: 'bbq-sauce', name: 'BBQ-Sauce', kategorie: 'Sauce', einheit: 'l', preisProEinheit: 4.9 },
+  { id: 'gemischter-salat', name: 'Gemischter Salat', kategorie: 'Salat', einheit: 'kg', preisProEinheit: 3.2 },
+  { id: 'brot', name: 'Brotauswahl', kategorie: 'Brot', einheit: 'kg', preisProEinheit: 2.4 },
+  { id: 'dessertglas', name: 'Dessertglas (Stück)', kategorie: 'Dessert', einheit: 'Stück', preisProEinheit: 1.9 },
+  { id: 'olivenoel', name: 'Olivenöl', kategorie: 'Sonstiges', einheit: 'l', preisProEinheit: 9.8 },
+  { id: 'butter', name: 'Butter', kategorie: 'Sonstiges', einheit: 'kg', preisProEinheit: 6.1 },
+];
 
 function ensureDataFiles() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(USERS_FILE)) fs.writeFileSync(USERS_FILE, '[]', 'utf8');
   if (!fs.existsSync(SESSIONS_FILE)) fs.writeFileSync(SESSIONS_FILE, '{}', 'utf8');
+  if (!fs.existsSync(COMPONENTS_FILE)) fs.writeFileSync(COMPONENTS_FILE, JSON.stringify(DEFAULT_COMPONENTS, null, 2), 'utf8');
+  if (!fs.existsSync(KALKULATIONEN_FILE)) fs.writeFileSync(KALKULATIONEN_FILE, '[]', 'utf8');
 }
 
 // Ein simpler In-Process-"Write-Lock": verhindert, dass zwei fast gleichzeitige
@@ -120,6 +147,43 @@ async function destroySession(token) {
   }
 }
 
+// ---------- Kalkulations-Baukasten: Komponenten ----------
+function getComponents() {
+  return readJSON(COMPONENTS_FILE) || [];
+}
+
+function findComponentById(id) {
+  return getComponents().find((c) => c.id === id) || null;
+}
+
+// ---------- Kalkulations-Baukasten: gespeicherte Kalkulationen ----------
+function getKalkulationen() {
+  return readJSON(KALKULATIONEN_FILE) || [];
+}
+
+function saveKalkulationenList(list) {
+  return writeJSON(KALKULATIONEN_FILE, list);
+}
+
+async function insertKalkulation(kalkulation) {
+  const list = getKalkulationen();
+  list.unshift(kalkulation);
+  await saveKalkulationenList(list);
+  return kalkulation;
+}
+
+async function deleteKalkulation(id, betrieb) {
+  const list = getKalkulationen();
+  const idx = list.findIndex((k) => k.id === id && k.betrieb === betrieb);
+  if (idx === -1) {
+    const err = new Error('Kalkulation nicht gefunden');
+    err.code = 'NOT_FOUND';
+    throw err;
+  }
+  list.splice(idx, 1);
+  await saveKalkulationenList(list);
+}
+
 module.exports = {
   getUsers,
   findUserByEmail,
@@ -130,4 +194,9 @@ module.exports = {
   createSession,
   getSessionUserId,
   destroySession,
+  getComponents,
+  findComponentById,
+  getKalkulationen,
+  insertKalkulation,
+  deleteKalkulation,
 };
