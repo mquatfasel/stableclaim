@@ -37,7 +37,7 @@ function initials(name) {
 }
 
 function money(n) {
-  return (Number(n) || 0).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  return (Number(n) || 0).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 }
 
 // ---------- Sidebar-Navigation ----------
@@ -274,7 +274,7 @@ function resetBuilder() {
   $('kalk-portionen').value = 20;
   $('kalk-portionen-val').textContent = '20';
   $('kalk-quote').value = 30;
-  $('kalk-quote-val').textContent = '30 %';
+  $('kalk-quote-val').textContent = '30 %';
   renderKalkTable();
   setStatus('');
 }
@@ -329,7 +329,7 @@ function openSavedKalkulation(k) {
   $('kalk-portionen').value = k.portionen;
   $('kalk-portionen-val').textContent = String(k.portionen);
   $('kalk-quote').value = Math.round((k.zielWareneinsatzquote || 0.3) * 100);
-  $('kalk-quote-val').textContent = `${Math.round((k.zielWareneinsatzquote || 0.3) * 100)} %`;
+  $('kalk-quote-val').textContent = `${Math.round((k.zielWareneinsatzquote || 0.3) * 100)} %`;
   kalkRows = k.zeilen
     .filter((z) => komponenteById(z.komponenteId))
     .map((z) => ({ komponenteId: z.komponenteId, mengeProPortion: z.mengeProPortion }));
@@ -462,12 +462,218 @@ async function initKalkulation() {
     recalcKalkulation();
   });
   $('kalk-quote').addEventListener('input', () => {
-    $('kalk-quote-val').textContent = `${$('kalk-quote').value} %`;
+    $('kalk-quote-val').textContent = `${$('kalk-quote').value} %`;
     recalcKalkulation();
   });
   $('kalk-save-btn').addEventListener('click', saveCurrentKalkulation);
   $('kalk-email-btn').addEventListener('click', emailCurrentDraft);
   $('kalk-reset-btn').addEventListener('click', resetBuilder);
+}
+
+// ================== Artikelstamm & Allergene ==================
+// Nutzt dieselben Komponenten wie die Kalkulation (alleKomponenten) — eine
+// Information (Preis, Allergene) wird nur einmal gepflegt und erscheint
+// automatisch an allen Stellen (Grundprinzip der Gastrozentrale).
+function allergeneText(k) {
+  if (Array.isArray(k.allergene) && k.allergene.length > 0) return k.allergene.join(', ');
+  if (Array.isArray(k.allergene) && k.allergene.length === 0) return 'frei von kennzeichnungspflichtigen Allergenen';
+  return 'noch zu prüfen';
+}
+
+function renderArtikelstamm() {
+  const tbody = $('artikel-rows');
+  if (!tbody) return;
+  tbody.innerHTML = alleKomponenten.map((k) => `
+    <tr>
+      <td>${k.name}</td>
+      <td>${k.kategorie}</td>
+      <td>${k.einheit}</td>
+      <td class="mono">${money(k.preisProEinheit)}</td>
+      <td>${k.lieferant || '–'}</td>
+      <td class="mono">${k.artikelnummer || '–'}</td>
+    </tr>
+  `).join('');
+  const offen = alleKomponenten.filter((k) => k.allergene === null).length;
+  $('artikel-hint').textContent = `${alleKomponenten.length} Artikel im Artikelstamm — Preise aus dem CHEFS-CULINAR-Konto. Weitere Artikel aus den insgesamt 846 gekauften Positionen der letzten 12 Monate lassen sich hier Schritt für Schritt ergänzen.`;
+}
+
+function renderAllergene() {
+  const tbody = $('allergene-rows');
+  if (!tbody) return;
+  tbody.innerHTML = alleKomponenten.map((k) => `
+    <tr>
+      <td>${k.name}</td>
+      <td>${k.kategorie}</td>
+      <td>${allergeneText(k)}${k.allergeneHinweis ? `<br><small class="hint" style="margin:0;">${k.allergeneHinweis}</small>` : ''}</td>
+    </tr>
+  `).join('');
+  const offen = alleKomponenten.filter((k) => k.allergene === null).length;
+  $('allergene-hint').textContent = offen > 0
+    ? `${offen} von ${alleKomponenten.length} Artikeln fehlt noch eine geprüfte Allergenangabe.`
+    : `Für alle ${alleKomponenten.length} Artikel liegen geprüfte Allergenangaben vor.`;
+}
+
+// ================== Bereiche (HACCP / Reinigungspläne) ==================
+let alleBereiche = [];
+
+function bereichCardHtml(b, art) {
+  const href = art === 'haccp' ? `/api/vorlagen/haccp?bereich=${encodeURIComponent(b.id)}` : `/api/vorlagen/reinigung?bereich=${encodeURIComponent(b.id)}`;
+  const label = art === 'haccp' ? 'HACCP-Kontrollliste öffnen' : 'Reinigungsplan öffnen';
+  return `
+    <div class="bereich-card" data-id="${b.id}">
+      <strong>${b.name}</strong>
+      <span class="typ">${b.typ}</span>
+      <div class="bereich-actions">
+        <a href="${href}" target="_blank" rel="noopener">${label}</a>
+        <button class="bereich-delete" data-action="delete" title="Bereich entfernen">×</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderBereiche() {
+  ['haccp', 'reinigung'].forEach((art) => {
+    const grid = $(`bereiche-grid-${art}`);
+    const empty = $(`bereiche-empty-${art}`);
+    if (!grid) return;
+    empty.hidden = alleBereiche.length > 0;
+    grid.innerHTML = alleBereiche.map((b) => bereichCardHtml(b, art)).join('');
+    grid.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.closest('.bereich-card').dataset.id;
+        deleteBereich(id);
+      });
+    });
+  });
+}
+
+async function loadBereiche() {
+  try {
+    const data = await api('/api/bereiche');
+    alleBereiche = data.bereiche;
+  } catch (e) {
+    alleBereiche = [];
+  }
+  renderBereiche();
+}
+
+async function addBereich(art) {
+  const nameInput = $(`bereich-name-${art}`);
+  const typSelect = $(`bereich-typ-${art}`);
+  const name = nameInput.value.trim();
+  if (!name) { toast('Bitte einen Namen für den Bereich angeben.'); return; }
+  try {
+    const data = await api('/api/bereiche', { method: 'POST', body: { name, typ: typSelect.value } });
+    alleBereiche.unshift(data.bereich);
+    renderBereiche();
+    nameInput.value = '';
+    toast(`Bereich „${name}" hinzugefügt.`);
+  } catch (e) {
+    toast(e.message || 'Bereich konnte nicht angelegt werden.');
+  }
+}
+
+async function deleteBereich(id) {
+  try {
+    await api(`/api/bereiche/${encodeURIComponent(id)}`, { method: 'DELETE' });
+    alleBereiche = alleBereiche.filter((b) => b.id !== id);
+    renderBereiche();
+  } catch (e) {
+    toast(e.message || 'Bereich konnte nicht entfernt werden.');
+  }
+}
+
+function initBereiche() {
+  ['haccp', 'reinigung'].forEach((art) => {
+    const btn = $(`bereich-add-btn-${art}`);
+    if (btn) btn.addEventListener('click', () => addBereich(art));
+  });
+  loadBereiche();
+}
+
+// ================== Personal / Zeiterfassung ==================
+let laufenderEintrag = null;
+let zeitTimer = null;
+
+function formatDauer(minuten) {
+  if (minuten == null) return '–';
+  const h = Math.floor(minuten / 60);
+  const m = minuten % 60;
+  return h > 0 ? `${h} Std. ${m} Min.` : `${m} Min.`;
+}
+
+function formatZeitpunkt(iso) {
+  if (!iso) return '–';
+  return new Date(iso).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+function renderZeitStatus() {
+  const statusEl = $('zeit-status');
+  const btn = $('zeit-toggle-btn');
+  if (!statusEl || !btn) return;
+  if (laufenderEintrag) {
+    const seit = new Date(laufenderEintrag.beginn);
+    const minuten = Math.max(0, Math.round((Date.now() - seit.getTime()) / 60000));
+    statusEl.innerHTML = `Eingestempelt seit <strong>${formatZeitpunkt(laufenderEintrag.beginn)}</strong> — läuft seit ${formatDauer(minuten)}`;
+    btn.textContent = 'Gehen';
+    btn.classList.add('is-running');
+  } else {
+    statusEl.textContent = 'Aktuell nicht eingestempelt.';
+    btn.textContent = 'Kommen';
+    btn.classList.remove('is-running');
+  }
+}
+
+function renderZeitTabelle(eintraege) {
+  const tbody = $('zeit-rows');
+  if (!tbody) return;
+  const sortiert = [...eintraege].sort((a, b) => new Date(b.beginn) - new Date(a.beginn));
+  $('zeit-empty').hidden = sortiert.length > 0;
+  tbody.innerHTML = sortiert.map((z) => `
+    <tr>
+      <td>${z.userName}</td>
+      <td>${formatZeitpunkt(z.beginn)}</td>
+      <td>${z.ende ? formatZeitpunkt(z.ende) : '<em>läuft …</em>'}</td>
+      <td class="mono">${formatDauer(z.dauerMinuten)}</td>
+    </tr>
+  `).join('');
+}
+
+async function loadZeiterfassung() {
+  try {
+    const data = await api('/api/zeiterfassung/eintraege');
+    laufenderEintrag = data.laufenderEintrag;
+    renderZeitStatus();
+    renderZeitTabelle(data.eintraege);
+  } catch (e) {
+    // still ignorieren, Modul bleibt nutzbar
+  }
+}
+
+async function toggleZeiterfassung() {
+  const btn = $('zeit-toggle-btn');
+  btn.disabled = true;
+  try {
+    if (laufenderEintrag) {
+      await api('/api/zeiterfassung/stop', { method: 'POST' });
+      toast('Ausgestempelt.');
+    } else {
+      await api('/api/zeiterfassung/start', { method: 'POST' });
+      toast('Eingestempelt.');
+    }
+    await loadZeiterfassung();
+  } catch (e) {
+    toast(e.message || 'Zeiterfassung fehlgeschlagen.');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function initPersonal() {
+  $('zeit-toggle-btn').addEventListener('click', toggleZeiterfassung);
+  loadZeiterfassung();
+  clearInterval(zeitTimer);
+  zeitTimer = setInterval(() => { if (laufenderEintrag) renderZeitStatus(); }, 30000);
 }
 
 // ---------- Boot ----------
@@ -478,7 +684,10 @@ async function boot() {
   initLogout();
   initKalender();
   await initKalkulation();
+  renderArtikelstamm();
+  renderAllergene();
+  initBereiche();
+  initPersonal();
 }
 
 boot();
-
