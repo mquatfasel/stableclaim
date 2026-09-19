@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>StableClaim – Gastrozentrale</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StableClaim – Gastrozentrale</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/dashboard.css">
 </head>
@@ -26,6 +33,7 @@
         <button class="nav-item" data-view="allergene" type="button">Allergene</button>
         <button class="nav-item" data-view="haccp" type="button">HACCP</button>
         <button class="nav-item" data-view="reinigung" type="button">Reinigungspläne</button>
+        <button class="nav-item" data-view="personal" type="button">Personal</button>
         <button class="nav-item" data-view="email" type="button">E-Mail</button>
         <button class="nav-item" data-view="dokumente" type="button">Dokumente</button>
         <button class="nav-item" data-view="support" type="button">Support</button>
@@ -161,10 +169,115 @@
 
       <!-- Platzhalter-Module -->
       <section id="view-rezepturen" class="view placeholder-view" data-title="Rezepturen" data-text="Rezepturdatenbank mit Skalierung folgt hier."></section>
-      <section id="view-artikelstamm" class="view placeholder-view" data-title="Artikelstamm" data-text="Zentrale Artikeldaten inkl. Preisverlauf folgen hier."></section>
-      <section id="view-allergene" class="view placeholder-view" data-title="Allergene" data-text="Automatische Allergen- und Zusatzstoffübersicht folgt hier."></section>
-      <section id="view-haccp" class="view placeholder-view" data-title="HACCP" data-text="Temperaturkontrollen und Abweichungsmanagement folgen hier."></section>
-      <section id="view-reinigung" class="view placeholder-view" data-title="Reinigungspläne" data-text="Reinigungspläne je Betriebsbereich folgen hier."></section>
+
+      <!-- Artikelstamm -->
+      <section id="view-artikelstamm" class="view">
+        <header class="view-head">
+          <h1>Artikelstamm</h1>
+          <p>Echte Artikel aus dem CHEFS-CULINAR-Konto (Einkaufsliste der letzten 12 Monate) — die Basis für die Kalkulations-Baukasten-Komponenten.</p>
+        </header>
+        <div class="card">
+          <table class="kalk-table" id="artikel-table">
+            <thead>
+              <tr><th>Artikel</th><th>Kategorie</th><th>Einheit</th><th>Preis</th><th>Lieferant</th><th>Artikel-Nr.</th></tr>
+            </thead>
+            <tbody id="artikel-rows"></tbody>
+          </table>
+          <p class="hint" id="artikel-hint"></p>
+        </div>
+      </section>
+
+      <!-- Allergene -->
+      <section id="view-allergene" class="view">
+        <header class="view-head">
+          <h1>Allergene</h1>
+          <p>Automatisch aus dem Artikelstamm übernommen — keine doppelte Pflege nötig.</p>
+        </header>
+        <div class="card">
+          <table class="kalk-table" id="allergene-table">
+            <thead>
+              <tr><th>Artikel</th><th>Kategorie</th><th>Allergene</th></tr>
+            </thead>
+            <tbody id="allergene-rows"></tbody>
+          </table>
+          <p class="hint" id="allergene-hint"></p>
+        </div>
+      </section>
+
+      <!-- HACCP -->
+      <section id="view-haccp" class="view">
+        <header class="view-head">
+          <h1>HACCP</h1>
+          <p>Für jeden Betriebsbereich eine fertige Kontrollliste zum Herunterladen und handschriftlichen Ausfüllen.</p>
+        </header>
+        <div class="card bereiche-form">
+          <div class="kalk-add-row" id="bereich-add-row-haccp">
+            <input id="bereich-name-haccp" type="text" placeholder="Bereich, z. B. Küche, Kühlhaus, Bar">
+            <select id="bereich-typ-haccp">
+              <option value="Küche">Küche</option>
+              <option value="Kühlhaus">Kühlhaus</option>
+              <option value="Bar">Bar</option>
+              <option value="Spülbereich">Spülbereich</option>
+              <option value="Lager">Lager</option>
+              <option value="Service">Service</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+            <span></span>
+            <button class="btn-ghost" id="bereich-add-btn-haccp" type="button">+ Bereich hinzufügen</button>
+          </div>
+        </div>
+        <div class="bereiche-grid" id="bereiche-grid-haccp"></div>
+        <p class="hint" id="bereiche-empty-haccp" hidden>Noch keine Bereiche angelegt — füge oben deinen ersten Bereich hinzu (z. B. „Küche"), um die HACCP-Kontrollliste dafür herunterzuladen.</p>
+      </section>
+
+      <!-- Reinigungspläne -->
+      <section id="view-reinigung" class="view">
+        <header class="view-head">
+          <h1>Reinigungspläne</h1>
+          <p>Für jeden Betriebsbereich ein fertiger Reinigungsplan mit passenden Vorschlägen zum Herunterladen.</p>
+        </header>
+        <div class="card bereiche-form">
+          <div class="kalk-add-row" id="bereich-add-row-reinigung">
+            <input id="bereich-name-reinigung" type="text" placeholder="Bereich, z. B. Küche, Kühlhaus, Bar">
+            <select id="bereich-typ-reinigung">
+              <option value="Küche">Küche</option>
+              <option value="Kühlhaus">Kühlhaus</option>
+              <option value="Bar">Bar</option>
+              <option value="Spülbereich">Spülbereich</option>
+              <option value="Lager">Lager</option>
+              <option value="Service">Service</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+            <span></span>
+            <button class="btn-ghost" id="bereich-add-btn-reinigung" type="button">+ Bereich hinzufügen</button>
+          </div>
+        </div>
+        <div class="bereiche-grid" id="bereiche-grid-reinigung"></div>
+        <p class="hint" id="bereiche-empty-reinigung" hidden>Noch keine Bereiche angelegt — füge oben deinen ersten Bereich hinzu (z. B. „Küche"), um den Reinigungsplan dafür herunterzuladen.</p>
+      </section>
+
+      <!-- Personal -->
+      <section id="view-personal" class="view">
+        <header class="view-head">
+          <h1>Personal</h1>
+          <p>Zeiterfassung — mit dem eigenen Login ein- und ausstempeln.</p>
+        </header>
+        <div class="card zeit-card">
+          <div class="zeit-status" id="zeit-status">Lädt …</div>
+          <button class="btn-primary zeit-btn" id="zeit-toggle-btn" type="button">Kommen</button>
+        </div>
+        <div class="card" style="margin-top:16px;">
+          <h3>Zeiterfassungen (dieser Betrieb)</h3>
+          <table class="kalk-table" id="zeit-table">
+            <thead>
+              <tr><th>Mitarbeiter</th><th>Beginn</th><th>Ende</th><th>Dauer</th></tr>
+            </thead>
+            <tbody id="zeit-rows"></tbody>
+          </table>
+          <p class="hint" id="zeit-empty" hidden>Noch keine Zeiterfassungen vorhanden.</p>
+        </div>
+      </section>
+
       <section id="view-email" class="view placeholder-view" data-title="E-Mail" data-text="Zentraler Posteingang für Kundenanfragen folgt hier."></section>
       <section id="view-dokumente" class="view placeholder-view" data-title="Dokumente" data-text="Dokumentenarchiv mit KI-Suche folgt hier."></section>
       <section id="view-support" class="view placeholder-view" data-title="Support" data-text="Wissensdatenbank und interne Anfragen folgen hier."></section>
