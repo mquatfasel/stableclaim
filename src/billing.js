@@ -8,7 +8,7 @@
 //   STRIPE_WEBHOOK_SECRET        whsec_… (aus dem Webhook-Endpoint im Stripe-Dashboard)
 //   STRIPE_PRICE_BASIC           price_… (wiederkehrender Preis für den Basic-Plan)
 //   STRIPE_PRICE_PROFESSIONAL    price_… (wiederkehrender Preis für den Professional-Plan)
-//   PUBLIC_BASE_URL              z.B. https://www.pilottable.de (für Redirect-URLs)
+//   PUBLIC_BASE_URL              z.B. https://www.stableclaim.de (für Redirect-URLs)
 //
 // Ist STRIPE_SECRET_KEY nicht gesetzt, liefern die Funktionen einen klaren
 // Fehler (Status 501) statt die App zum Absturz zu bringen.
@@ -82,8 +82,8 @@ async function createCheckoutSession({ plan, user, baseUrl }) {
     cancel_url: `${baseUrl}/dashboard.html?checkout=cancel#konto`,
     client_reference_id: user.id,
     customer_email: user.email,
-    'subscription_data[metadata][pilottable_user_id]': user.id,
-    'metadata[pilottable_user_id]': user.id,
+    'subscription_data[metadata][stableclaim_user_id]': user.id,
+    'metadata[stableclaim_user_id]': user.id,
     'metadata[plan]': plan,
     allow_promotion_codes: 'true',
   };
