@@ -1,5 +1,5 @@
 // src/server.js
-// PilotTable – Login, Benutzerverwaltung, App-Shell, Abo-Modelle & Stripe-Abrechnung.
+// StableClaim – Login, Benutzerverwaltung, App-Shell, Abo-Modelle & Stripe-Abrechnung.
 // Reines Node.js (http, crypto, fs, https) – keine externen Pakete, kein npm install nötig.
 
 const http = require('http');
@@ -279,7 +279,7 @@ async function handleStripeWebhook(req, res) {
   try {
     const obj = event.data && event.data.object;
     if (event.type === 'checkout.session.completed' && obj) {
-      const userId = obj.client_reference_id || (obj.metadata && obj.metadata.pilottable_user_id);
+      const userId = obj.client_reference_id || (obj.metadata && obj.metadata.stableclaim_user_id);
       const plan = obj.metadata && obj.metadata.plan;
       if (userId) {
         await store.updateUser(userId, {
@@ -307,6 +307,126 @@ async function handleStripeWebhook(req, res) {
   }
 
   return sendJSON(res, 200, { received: true });
+}
+
+// ---------- Kalender ----------
+
+function handleCalendarConfig(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  // Kein OAuth, keine Zugangsdaten: der Betreiber kann optional einen
+  // öffentlichen Google-Kalender-Embed-Link hinterlegen (Google Kalender →
+  // Einstellungen → „Kalender in Website einbetten" → iframe-src kopieren).
+  return sendJSON(res, 200, { embedUrl: process.env.GOOGLE_CALENDAR_EMBED_URL || null });
+}
+
+// ---------- Kalkulations-Baukasten ----------
+
+function calculateKalkulation({ portionen, zielWareneinsatzquote, komponenten }) {
+  let wareneinsatzProPortion = 0;
+  const zeilen = komponenten.map((k) => {
+    const komponente = store.findComponentById(k.komponenteId);
+    if (!komponente) {
+      throw Object.assign(new Error(`Unbekannte Komponente: ${k.komponenteId}`), { status: 400 });
+    }
+    const mengeProPortion = Number(k.mengeProPortion) || 0;
+    const mengeGesamt = mengeProPortion * portionen;
+    const preisProPortion = mengeProPortion * komponente.preisProEinheit;
+    const preisGesamt = mengeGesamt * komponente.preisProEinheit;
+    wareneinsatzProPortion += preisProPortion;
+    return {
+      komponenteId: komponente.id,
+      name: komponente.name,
+      kategorie: komponente.kategorie,
+      einheit: komponente.einheit,
+      preisProEinheit: komponente.preisProEinheit,
+      mengeProPortion,
+      mengeGesamt: Math.round(mengeGesamt * 1000) / 1000,
+      preisGesamt: Math.round(preisGesamt * 100) / 100,
+    };
+  });
+  const wareneinsatzGesamt = Math.round(wareneinsatzProPortion * portionen * 100) / 100;
+  wareneinsatzProPortion = Math.round(wareneinsatzProPortion * 100) / 100;
+  const quote = zielWareneinsatzquote > 0 && zielWareneinsatzquote < 1 ? zielWareneinsatzquote : 0.3;
+  const empfohlenerVkPreisProPortion = Math.round((wareneinsatzProPortion / quote) * 100) / 100;
+  const deckungsbeitragProPortion = Math.round((empfohlenerVkPreisProPortion - wareneinsatzProPortion) * 100) / 100;
+  return {
+    zeilen,
+    wareneinsatzGesamt,
+    wareneinsatzProPortion,
+    zielWareneinsatzquote: quote,
+    empfohlenerVkPreisProPortion,
+    deckungsbeitragProPortion,
+  };
+}
+
+function handleComponentsList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  return sendJSON(res, 200, { components: store.getComponents() });
+}
+
+function handleKalkulationenList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  const list = store.getKalkulationen().filter((k) => k.betrieb === user.betrieb);
+  return sendJSON(res, 200, { kalkulationen: list });
+}
+
+async function handleKalkulationenCreate(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  let body;
+  try {
+    body = await readJSONBody(req);
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+
+  const typ = body.typ === 'buffet' ? 'buffet' : 'gericht';
+  const name = String(body.name || '').trim();
+  const portionen = Math.max(1, Math.round(Number(body.portionen) || 1));
+  const komponenten = Array.isArray(body.komponenten) ? body.komponenten : [];
+
+  if (!name) return sendJSON(res, 400, { error: 'Bitte einen Namen für die Kalkulation angeben.' });
+  if (!komponenten.length) return sendJSON(res, 400, { error: 'Bitte mindestens eine Komponente hinzufügen.' });
+
+  let ergebnis;
+  try {
+    ergebnis = calculateKalkulation({
+      portionen,
+      zielWareneinsatzquote: Number(body.zielWareneinsatzquote) || 0.3,
+      komponenten,
+    });
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+
+  const kalkulation = {
+    id: crypto.randomUUID(),
+    typ,
+    name,
+    portionen,
+    betrieb: user.betrieb,
+    erstelltVon: user.id,
+    erstelltAm: new Date().toISOString(),
+    ...ergebnis,
+  };
+
+  await store.insertKalkulation(kalkulation);
+  return sendJSON(res, 201, { kalkulation });
+}
+
+async function handleKalkulationenDelete(req, res, id) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  try {
+    await store.deleteKalkulation(id, user.betrieb);
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+  return sendJSON(res, 200, { ok: true });
 }
 
 // ---------- statische Dateien ----------
@@ -351,6 +471,13 @@ const server = http.createServer((req, res) => {
     if (urlPath === '/api/billing/checkout' && req.method === 'POST') return void handleBillingCheckout(req, res);
     if (urlPath === '/api/billing/portal' && req.method === 'POST') return void handleBillingPortal(req, res);
     if (urlPath === '/api/billing/webhook' && req.method === 'POST') return void handleStripeWebhook(req, res);
+    if (urlPath === '/api/calendar/config' && req.method === 'GET') return void handleCalendarConfig(req, res);
+    if (urlPath === '/api/components' && req.method === 'GET') return void handleComponentsList(req, res);
+    if (urlPath === '/api/kalkulationen' && req.method === 'GET') return void handleKalkulationenList(req, res);
+    if (urlPath === '/api/kalkulationen' && req.method === 'POST') return void handleKalkulationenCreate(req, res);
+    if (urlPath.startsWith('/api/kalkulationen/') && req.method === 'DELETE') {
+      return void handleKalkulationenDelete(req, res, decodeURIComponent(urlPath.slice('/api/kalkulationen/'.length)));
+    }
 
     if (urlPath.startsWith('/api/')) {
       return sendJSON(res, 404, { error: 'Unbekannter Endpunkt.' });
@@ -367,5 +494,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`PilotTable läuft auf http://localhost:${PORT}`);
+  console.log(`StableClaim läuft auf http://localhost:${PORT}`);
 });
