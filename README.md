@@ -1,4 +1,4 @@
-# PilotTable — App-Shell, Login & Abo-Modelle
+# StableClaim — App-Shell, Login & Abo-Modelle
 
 Eine eigenständige, lauffähige App (kein Mockup): echte Konten mit gehashten
 Passwörtern, echte Sessions, eine vollständige Navigations-Shell mit allen
@@ -8,7 +8,7 @@ Stripe-Anbindung für die Abo-Pakete (Basic / Professional / Enterprise).
 Läuft mit reinem Node.js — **keine externen Pakete, kein `npm install`
 nötig.**
 
-Live: **https://www.pilottable.de**
+Live: **https://www.stableclaim.de**
 
 ## Schnellstart
 
@@ -80,7 +80,7 @@ Betreiber selbst:
    kein Self-Service-Checkout).
 3. Im Dashboard unter **Developers → API keys** den Secret Key kopieren.
 4. Unter **Developers → Webhooks** einen Endpoint auf
-   `https://www.pilottable.de/api/billing/webhook` anlegen, Events
+   `https://www.stableclaim.de/api/billing/webhook` anlegen, Events
    `checkout.session.completed`, `customer.subscription.updated`,
    `customer.subscription.deleted` abonnieren, Signing Secret kopieren.
 5. Folgende Umgebungsvariablen bei Render eintragen (Settings →
@@ -92,7 +92,7 @@ Betreiber selbst:
    | `STRIPE_WEBHOOK_SECRET`       | `whsec_…`                                 |
    | `STRIPE_PRICE_BASIC`          | `price_…` (Preis-ID des Basic-Produkts)   |
    | `STRIPE_PRICE_PROFESSIONAL`   | `price_…` (Preis-ID des Professional-Produkts) |
-   | `PUBLIC_BASE_URL`             | `https://www.pilottable.de`               |
+   | `PUBLIC_BASE_URL`             | `https://www.stableclaim.de`               |
 
 Ohne diese Variablen antworten die Billing-Endpunkte mit einer klaren
 Fehlermeldung („Stripe ist noch nicht konfiguriert …", Status 501) statt
@@ -105,7 +105,7 @@ Betreiber im Stripe- bzw. Render-Dashboard.
 ## Projektstruktur
 
 ```
-pilottable/
+stableclaim/
 ├── src/
 │   ├── server.js   # HTTP-Server, Routing, statische Auslieferung
 │   ├── auth.js     # Passwort-Hashing, Sessions, Cookies
@@ -152,8 +152,8 @@ Start, langfristig aber nicht zwingend das Ziel.
    Datenbank-Tabelle eine `tenant_id` bzw. eine strikte Trennung pro
    Betrieb.
 6. **Deployment**: läuft bereits produktiv auf Render, DNS bei Strato
-   (`pilottable.de`, CNAME `www` → Render, Domain-Redirect der nackten
-   Domain auf `www.pilottable.de`). Für Produktivbetrieb das Cookie in
+   (`stableclaim.de`, CNAME `www` → Render, Domain-Redirect der nackten
+   Domain auf `www.stableclaim.de`). Für Produktivbetrieb das Cookie in
    `src/auth.js` (`setSessionCookie`) um `Secure` ergänzen, sobald die App
    über HTTPS läuft (ist bei Render standardmäßig der Fall).
 7. Ab hier weiter entlang der Roadmap: Bankett, Einkauf, Lager, Menu
