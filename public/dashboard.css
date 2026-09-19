@@ -1,0 +1,126 @@
+/* public/dashboard.css — App-Shell für die Gastrozentrale (Sidebar + Module) */
+
+body.dashboard-body{padding-inline:0;}
+
+.shell{
+  display:grid;grid-template-columns:264px 1fr;min-height:100vh;max-width:1440px;margin-inline:auto;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  border-right:1px solid var(--border);background:var(--surface);
+  display:flex;flex-direction:column;padding:24px 18px;gap:22px;position:sticky;top:0;height:100vh;
+}
+.sidebar-brand{padding-inline:8px;}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto;}
+.nav-item{
+  text-align:left;border:0;background:transparent;color:var(--ink-soft);font-weight:600;font-size:.92rem;
+  padding:10px 12px;border-radius:10px;cursor:pointer;font-family:inherit;
+}
+.nav-item:hover{background:var(--surface-2);color:var(--ink);}
+.nav-item.is-active{background:var(--charcoal);color:var(--on-charcoal);}
+
+.sidebar-footer{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:16px;}
+.account-card{display:flex;align-items:center;gap:10px;padding-inline:8px;}
+.sidebar-name{display:block;font-size:.88rem;font-family:'Sora',sans-serif;}
+.sidebar-meta{display:block;color:var(--ink-soft);font-size:.74rem;}
+.sidebar-link{justify-content:center;text-decoration:none;}
+
+/* ---------- Content ---------- */
+.content{padding:32px 40px 60px;min-width:0;}
+.view{display:none;}
+.view.is-active{display:block;}
+.view-head{margin-bottom:24px;}
+.view-head h1{font-size:1.6rem;}
+.view-head p{color:var(--ink-soft);margin-top:6px;font-size:.95rem;}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px 24px;
+}
+
+.hint{color:var(--ink-soft);font-size:.82rem;margin-top:10px;}
+
+/* ---------- Übersicht ---------- */
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.signal-card{
+  display:flex;gap:10px;align-items:flex-start;font-size:.9rem;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+}
+.signal-card .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:6px;flex:0 0 auto;}
+.signal-card .dot.warn{background:var(--danger);}
+
+/* ---------- Platzhalter-Module ---------- */
+.placeholder-view{}
+.placeholder-view::before{content:attr(data-title);display:block;font-family:'Sora',sans-serif;font-weight:700;font-size:1.6rem;margin-bottom:8px;}
+.placeholder-view::after{content:attr(data-text);display:block;color:var(--ink-soft);font-size:.95rem;max-width:52ch;}
+
+/* ---------- Kalender ---------- */
+.kalender-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:start;}
+.kalender-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.kalender-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;color:var(--ink-soft);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;margin-bottom:6px;}
+.kalender-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.kal-day{
+  aspect-ratio:1;border-radius:10px;border:1px solid transparent;background:var(--surface-2);
+  display:flex;align-items:flex-start;justify-content:flex-end;padding:6px;font-size:.82rem;font-family:'JetBrains Mono',monospace;
+  color:var(--ink-soft);
+}
+.kal-day.is-empty{background:transparent;}
+.kal-day.is-today{border-color:var(--accent-strong);color:var(--ink);font-weight:700;background:color-mix(in srgb, var(--accent) 16%, var(--surface));}
+.kalender-google{display:flex;flex-direction:column;gap:12px;}
+.kalender-google h3{font-size:1.05rem;}
+#kal-embed-wrap iframe{width:100%;height:340px;border:1px solid var(--border);border-radius:12px;}
+
+/* ---------- Kalkulation ---------- */
+.kalk-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:start;margin-top:18px;}
+.kalk-builder{display:flex;flex-direction:column;gap:18px;}
+.slider-field{display:flex;flex-direction:column;gap:8px;}
+.slider-field label{display:flex;justify-content:space-between;font-size:.84rem;font-weight:600;color:var(--ink-soft);}
+.slider-field input[type="range"]{
+  width:100%;accent-color:var(--accent-strong);height:6px;
+}
+
+.kalk-add-row{display:grid;grid-template-columns:1.6fr .9fr auto auto;gap:8px;align-items:center;}
+.kalk-add-row select,.kalk-add-row input{
+  border:1px solid var(--border);background:var(--bg);color:var(--ink);border-radius:10px;
+  padding:9px 11px;font-size:.88rem;font-family:inherit;
+}
+.kalk-add-row span.mono{text-align:center;color:var(--ink-soft);font-size:.82rem;}
+
+.kalk-table{width:100%;border-collapse:collapse;font-size:.86rem;}
+.kalk-table th{text-align:left;color:var(--ink-soft);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:8px 6px;border-bottom:1px solid var(--border);}
+.kalk-table td{padding:8px 6px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.kalk-table td.mengefeld input[type="range"]{width:100%;accent-color:var(--accent-strong);}
+.kalk-row-remove{border:0;background:transparent;color:var(--danger);cursor:pointer;font-size:1rem;line-height:1;padding:4px 6px;}
+
+.kalk-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;background:var(--surface-2);border-radius:12px;padding:14px 16px;}
+.kalk-summary div{display:flex;flex-direction:column;gap:2px;}
+.kalk-summary span{font-size:.74rem;color:var(--ink-soft);}
+.kalk-summary strong{font-size:1rem;}
+
+.kalk-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+.kalk-list h3{font-size:1rem;margin-bottom:12px;}
+.kalk-saved-item{
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.kalk-saved-item .row1{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.kalk-saved-item strong{font-family:'Sora',sans-serif;font-size:.94rem;}
+.kalk-saved-item .meta{color:var(--ink-soft);font-size:.78rem;}
+.kalk-saved-item .row-actions{display:flex;gap:8px;}
+.kalk-saved-item button{
+  border:1px solid var(--border);background:transparent;color:var(--ink);border-radius:8px;
+  padding:6px 10px;font-size:.78rem;font-weight:600;cursor:pointer;
+}
+.kalk-saved-item button:hover{background:var(--surface-2);}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{position:relative;height:auto;flex-direction:row;flex-wrap:wrap;}
+  .sidebar-nav{flex-direction:row;flex-wrap:wrap;overflow:visible;}
+  .content{padding:24px 18px 48px;}
+  .kalender-layout,.kalk-layout{grid-template-columns:1fr;}
+  .kalk-add-row{grid-template-columns:1fr 1fr;}
+}
+
