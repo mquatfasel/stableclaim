@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const store = require('./store');
 const auth = require('./auth');
 const billing = require('./billing');
+const vorlagen = require('./vorlagen');
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
@@ -429,6 +430,121 @@ async function handleKalkulationenDelete(req, res, id) {
   return sendJSON(res, 200, { ok: true });
 }
 
+// ---------- Bereiche (Arbeitsflächen/Betriebsbereiche) ----------
+// Damit baut der Nutzer seinen Betrieb Stück für Stück ab, indem er die
+// tatsächlich vorhandenen Bereiche anlegt (Küche, Kühlhaus, Bar, ...). Für
+// jeden Bereich lassen sich passende HACCP- und Reinigungsplan-Vorlagen
+// herunterladen (siehe /api/vorlagen/* weiter unten).
+
+function handleBereicheList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  return sendJSON(res, 200, { bereiche: store.getBereiche(user.betrieb) });
+}
+
+async function handleBereicheCreate(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  let body;
+  try {
+    body = await readJSONBody(req);
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+
+  const name = String(body.name || '').trim();
+  const typ = String(body.typ || '').trim() || 'Sonstiges';
+  if (!name) return sendJSON(res, 400, { error: 'Bitte einen Namen für den Bereich angeben.' });
+
+  const bereich = {
+    id: crypto.randomUUID(),
+    betrieb: user.betrieb,
+    name,
+    typ,
+    erstelltVon: user.id,
+    erstelltAm: new Date().toISOString(),
+  };
+  await store.insertBereich(bereich);
+  return sendJSON(res, 201, { bereich });
+}
+
+async function handleBereicheDelete(req, res, id) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  try {
+    await store.deleteBereich(id, user.betrieb);
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+  return sendJSON(res, 200, { ok: true });
+}
+
+// ---------- HACCP-/Reinigungsplan-Vorlagen (fertige, druckbare Seiten) ----------
+
+function handleVorlage(req, res, art, bereichId) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  const bereich = store.findBereichById(bereichId, user.betrieb);
+  if (!bereich) return sendJSON(res, 404, { error: 'Bereich nicht gefunden.' });
+
+  const daten = { betrieb: user.betrieb, bereich: bereich.name };
+  const html = art === 'reinigung' ? vorlagen.renderReinigungsplanVorlage(daten) : vorlagen.renderHaccpVorlage(daten);
+  const dateiname = `${art === 'reinigung' ? 'reinigungsplan' : 'haccp-kontrollliste'}-${bereich.name}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '') + '.html';
+
+  res.writeHead(200, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Content-Disposition': `inline; filename="${dateiname}"`,
+  });
+  res.end(html);
+}
+
+// ---------- Personal: Zeiterfassung (Kommen/Gehen) ----------
+
+function handleZeiterfassungList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  const eintraege = store.getZeiterfassung(user.betrieb);
+  const laufenderEintrag = store.findOffenenEintrag(user.id);
+  return sendJSON(res, 200, { eintraege, laufenderEintrag });
+}
+
+async function handleZeiterfassungStart(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  const eintrag = {
+    id: crypto.randomUUID(),
+    betrieb: user.betrieb,
+    userId: user.id,
+    userName: user.name,
+    beginn: new Date().toISOString(),
+    ende: null,
+    dauerMinuten: null,
+  };
+  try {
+    await store.starteZeiterfassung(eintrag);
+  } catch (e) {
+    return sendJSON(res, e.code === 'ALREADY_RUNNING' ? 409 : 500, { error: e.message });
+  }
+  return sendJSON(res, 201, { eintrag });
+}
+
+async function handleZeiterfassungStop(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  try {
+    const eintrag = await store.stoppeZeiterfassung(user.id, new Date().toISOString());
+    return sendJSON(res, 200, { eintrag });
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+}
+
 // ---------- statische Dateien ----------
 
 function serveStatic(req, res) {
@@ -478,6 +594,20 @@ const server = http.createServer((req, res) => {
     if (urlPath.startsWith('/api/kalkulationen/') && req.method === 'DELETE') {
       return void handleKalkulationenDelete(req, res, decodeURIComponent(urlPath.slice('/api/kalkulationen/'.length)));
     }
+    if (urlPath === '/api/bereiche' && req.method === 'GET') return void handleBereicheList(req, res);
+    if (urlPath === '/api/bereiche' && req.method === 'POST') return void handleBereicheCreate(req, res);
+    if (urlPath.startsWith('/api/bereiche/') && req.method === 'DELETE') {
+      return void handleBereicheDelete(req, res, decodeURIComponent(urlPath.slice('/api/bereiche/'.length)));
+    }
+    if (urlPath === '/api/vorlagen/haccp' && req.method === 'GET') {
+      return void handleVorlage(req, res, 'haccp', new URL(req.url, 'http://x').searchParams.get('bereich'));
+    }
+    if (urlPath === '/api/vorlagen/reinigung' && req.method === 'GET') {
+      return void handleVorlage(req, res, 'reinigung', new URL(req.url, 'http://x').searchParams.get('bereich'));
+    }
+    if (urlPath === '/api/zeiterfassung/eintraege' && req.method === 'GET') return void handleZeiterfassungList(req, res);
+    if (urlPath === '/api/zeiterfassung/start' && req.method === 'POST') return void handleZeiterfassungStart(req, res);
+    if (urlPath === '/api/zeiterfassung/stop' && req.method === 'POST') return void handleZeiterfassungStop(req, res);
 
     if (urlPath.startsWith('/api/')) {
       return sendJSON(res, 404, { error: 'Unbekannter Endpunkt.' });
