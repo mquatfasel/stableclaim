@@ -115,6 +115,30 @@ body.dashboard-body{padding-inline:0;}
 }
 .kalk-saved-item button:hover{background:var(--surface-2);}
 
+/* ---------- Bereiche (HACCP / Reinigungspläne) ---------- */
+.bereiche-form{margin-bottom:16px;}
+.bereiche-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.bereich-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.bereich-card strong{font-family:'Sora',sans-serif;font-size:1rem;}
+.bereich-card .typ{color:var(--ink-soft);font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;}
+.bereich-card .bereich-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.bereich-card .bereich-actions a,.bereich-card .bereich-actions button{
+  border:1px solid var(--border);background:transparent;color:var(--ink);border-radius:8px;
+  padding:7px 11px;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit;
+}
+.bereich-card .bereich-actions a:hover,.bereich-card .bereich-actions button:hover{background:var(--surface-2);}
+.bereich-card .bereich-delete{color:var(--danger);border-color:transparent;padding:7px 8px;}
+
+/* ---------- Personal / Zeiterfassung ---------- */
+.zeit-card{display:flex;flex-direction:column;align-items:center;gap:16px;padding:36px 20px;text-align:center;}
+.zeit-status{font-size:1.05rem;color:var(--ink-soft);}
+.zeit-status strong{color:var(--ink);font-family:'JetBrains Mono',monospace;}
+.zeit-btn{min-width:220px;justify-content:center;font-size:1.05rem;padding:16px 28px;}
+.zeit-btn.is-running{background:var(--danger);border-color:var(--danger);}
+
 @media (max-width:980px){
   .shell{grid-template-columns:1fr;}
   .sidebar{position:relative;height:auto;flex-direction:row;flex-wrap:wrap;}
@@ -123,4 +147,3 @@ body.dashboard-body{padding-inline:0;}
   .kalender-layout,.kalk-layout{grid-template-columns:1fr;}
   .kalk-add-row{grid-template-columns:1fr 1fr;}
 }
-
