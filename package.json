@@ -1,7 +1,7 @@
 {
-  "name": "pilottable",
+  "name": "stableclaim",
   "version": "0.2.0",
-  "description": "PilotTable – Login, App-Shell und Abo-Modelle (mit Stripe) als eigenständige, lauffähige App. Reines Node.js, keine externen Pakete.",
+  "description": "StableClaim – Login, App-Shell und Abo-Modelle (mit Stripe) als eigenständige, lauffähige App. Reines Node.js, keine externen Pakete.",
   "private": true,
   "main": "src/server.js",
   "type": "commonjs",
