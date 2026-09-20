@@ -11,17 +11,18 @@
 
   <header class="topbar">
     <div class="brandwrap">
-      <div class="brand">Stable<span class="bracket">Claim</span></div>
+      <div class="brand-mark">
+        <span class="sc-icon"><span>SC</span></span>
+        <div class="brand">Stable<span class="bracket">Claim</span></div>
+      </div>
       <small>Betriebssystem für Gastronomie</small>
     </div>
-    <button class="btn-ghost" type="button" onclick="document.getElementById('preise').scrollIntoView({behavior:'smooth'})">Abo ansehen</button>
   </header>
 
   <main>
     <section class="auth-shell" id="konto">
       <div class="auth-side">
         <div>
-          <span class="eyebrow">Betrieb · Grömitz Beachclub &amp; Restaurant</span>
           <h2>Ein System für alles, was heute im Betrieb passiert.</h2>
           <p class="lede">Artikelstamm, Rezepturen, HACCP und Bankett greifen auf dieselben Daten zu — eine Preisänderung wandert automatisch bis zur Kalkulation durch.</p>
           <ul class="signals">
@@ -46,10 +47,6 @@
               <h3 id="acc-name" style="font-size:1.15rem;">–</h3>
               <p style="color:var(--ink-soft);font-size:.85rem;margin:2px 0 0;" id="acc-meta">–</p>
             </div>
-          </div>
-          <div class="account-plan">
-            <span style="color:var(--ink-soft);font-size:.85rem;">Aktueller Plan</span>
-            <strong id="acc-plan-name">Noch kein Plan gewählt</strong>
           </div>
           <div class="account-actions">
             <a class="btn-primary" href="/dashboard.html" id="btn-open-app" style="text-decoration:none;">
@@ -136,59 +133,29 @@
       </div>
     </section>
 
-    <section class="pricing-head" id="preise">
-      <span class="eyebrow">Abo-Modelle</span>
-      <h2>Ein Datenbestand, drei Ausbaustufen.</h2>
-      <p>Jedes Paket schaltet zusätzliche Module auf derselben Datenbasis frei — Artikel, Rezepturen und Allergene bleiben in jedem Plan identisch gepflegt.</p>
+    <section class="features-head">
+      <span class="page-eyebrow">Ein Datenbestand</span>
+      <h2>Alles greift auf dieselben Daten zu.</h2>
+      <p>Artikel, Rezepturen und Allergene werden einmal gepflegt — und wandern automatisch bis in Kalkulation, HACCP und Bankett durch.</p>
     </section>
 
-    <section class="plans">
-      <article class="plan" data-plan="basic">
-        <h3>Basic</h3>
-        <p class="tagline">Für den Einzelbetrieb, der digital startet.</p>
-        <div class="price-tag"><span class="amount mono">49&nbsp;€</span><span class="per">/ Monat, 1 Standort</span></div>
-        <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Artikelstamm &amp; Preisverlauf</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Rezepturdatenbank mit Skalierung</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Allergene &amp; Zusatzstoffe</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>À-la-carte-Kalkulation</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Bis 3 Nutzerkonten</li>
-        </ul>
-        <button class="cta" id="cta-basic" type="button">Basic wählen</button>
+    <section class="features-grid">
+      <article class="feature-card">
+        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+        <h3>Artikelstamm &amp; Preisverlauf</h3>
+        <p>Einkaufspreise, Lieferanten und Preisverläufe an einer Stelle — Änderungen wirken sofort auf jede Kalkulation.</p>
       </article>
-
-      <article class="plan featured" data-plan="professional">
-        <span class="badge">Empfohlen</span>
-        <h3>Professional</h3>
-        <p class="tagline">Für Betriebe mit HACCP-Pflicht und Bankettgeschäft.</p>
-        <div class="price-tag"><span class="amount mono">149&nbsp;€</span><span class="per">/ Monat, 1 Standort</span></div>
-        <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Alles aus Basic</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Dokumentenanalyse (Lieferscheine, Preislisten)</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Buffet- &amp; Bankettkalkulation</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>HACCP-Zentrale &amp; Reinigungspläne</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Aufgabenmanagement</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Bis 15 Nutzerkonten</li>
-        </ul>
-        <button class="cta" id="cta-professional" type="button">Professional wählen</button>
+      <article class="feature-card">
+        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></span>
+        <h3>HACCP &amp; Reinigung</h3>
+        <p>Temperaturkontrollen, Reinigungspläne und Abweichungen digital und revisionsfähig dokumentiert.</p>
       </article>
-
-      <article class="plan" data-plan="enterprise">
-        <h3>Enterprise</h3>
-        <p class="tagline">Für Gruppen mit mehreren Standorten.</p>
-        <div class="price-tag"><span class="amount mono">Auf Anfrage</span></div>
-        <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Alles aus Professional</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Bankettmappe &amp; Anfragezentrale</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Management-Controlling &amp; Menu Engineering</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Mehrere Standorte / Mandanten</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Unbegrenzte Nutzerkonten, API-Zugang</li>
-        </ul>
-        <button class="cta" id="cta-enterprise" type="button">Vertrieb kontaktieren</button>
+      <article class="feature-card">
+        <span class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v4H4zM4 12h16v8H4z"/></svg></span>
+        <h3>Kalkulation &amp; Bankett</h3>
+        <p>À-la-carte, Buffet und Bankett rechnen mit denselben Wareneinsatzdaten — keine getrennten Excel-Listen mehr.</p>
       </article>
     </section>
-
-    <p class="plans-note">Preise sind Platzhalter für die Diskussion mit dem Entwicklerteam, kein finales Angebot. Ein Wechsel zwischen den Paketen ändert nur den Funktionsumfang — der Artikel-, Rezeptur- und Allergenbestand bleibt derselbe.</p>
 
     <footer class="page-footer">
       <span>StableClaim — digitales Betriebssystem für Gastronomie</span>

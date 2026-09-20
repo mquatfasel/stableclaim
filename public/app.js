@@ -2,8 +2,6 @@
 // Echtes Frontend: spricht per fetch() gegen die eigene API (src/server.js).
 // Keine Fake-Submits, keine simulierten Antworten.
 
-const PLAN_LABEL = { basic: 'Basic', professional: 'Professional', enterprise: 'Enterprise' };
-
 let currentUser = null;
 
 function $(id) { return document.getElementById(id); }
@@ -45,7 +43,6 @@ function initials(name) {
 function renderGuest() {
   $('state-account').hidden = true;
   $('state-guest').hidden = false;
-  updatePlanButtons();
 }
 
 function renderAccount() {
@@ -54,22 +51,6 @@ function renderAccount() {
   $('acc-avatar').textContent = initials(currentUser.name);
   $('acc-name').textContent = currentUser.name;
   $('acc-meta').textContent = `${currentUser.rolle} · ${currentUser.betrieb}`;
-  $('acc-plan-name').textContent = currentUser.plan
-    ? PLAN_LABEL[currentUser.plan] + (currentUser.planRequested ? ' (Anfrage an Vertrieb gesendet)' : '')
-    : 'Noch kein Plan gewählt';
-  updatePlanButtons();
-}
-
-function updatePlanButtons() {
-  ['basic', 'professional', 'enterprise'].forEach((p) => {
-    const btn = $('cta-' + p);
-    if (!btn) return;
-    const isCurrent = currentUser && currentUser.plan === p;
-    btn.classList.toggle('is-current', !!isCurrent);
-    btn.textContent = p === 'enterprise'
-      ? (isCurrent ? '✓ Anfrage gesendet' : 'Vertrieb kontaktieren')
-      : (isCurrent ? '✓ Aktueller Plan' : `${PLAN_LABEL[p]} wählen`);
-  });
 }
 
 function setStatus(id, msg, kind) {
@@ -153,25 +134,6 @@ async function handleLogout() {
   toast('Abgemeldet.');
 }
 
-// ---------- Plan-Auswahl ----------
-async function choosePlan(planId) {
-  if (!currentUser) {
-    toast('Bitte zuerst anmelden oder ein Konto erstellen.');
-    $('konto').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
-  try {
-    const data = await api('/api/plan', { method: 'POST', body: { plan: planId } });
-    currentUser = data.user;
-    renderAccount();
-    toast(planId === 'enterprise'
-      ? 'Anfrage gespeichert — der Vertrieb würde sich melden.'
-      : `Plan gespeichert: ${PLAN_LABEL[planId]}.`);
-  } catch (e) {
-    toast(e.message || 'Plan konnte nicht gespeichert werden.');
-  }
-}
-
 // ---------- Boot ----------
 async function boot() {
   $('tab-login').addEventListener('click', () => switchTab('login'));
@@ -179,9 +141,6 @@ async function boot() {
   $('form-login').addEventListener('submit', handleLogin);
   $('form-register').addEventListener('submit', handleRegister);
   $('btn-logout').addEventListener('click', handleLogout);
-  $('cta-basic').addEventListener('click', () => choosePlan('basic'));
-  $('cta-professional').addEventListener('click', () => choosePlan('professional'));
-  $('cta-enterprise').addEventListener('click', () => choosePlan('enterprise'));
 
   try {
     const data = await api('/api/auth/me');
