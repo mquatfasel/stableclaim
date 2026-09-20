@@ -676,6 +676,227 @@ function initPersonal() {
   zeitTimer = setInterval(() => { if (laufenderEintrag) renderZeitStatus(); }, 30000);
 }
 
+// ================== Personalakten ==================
+let alleMitarbeiter = [];
+
+function mitarbeiterCardHtml(m) {
+  const zeilen = [];
+  if (m.rolle) zeilen.push(m.rolle);
+  if (m.email) zeilen.push(m.email);
+  if (m.telefon) zeilen.push(m.telefon);
+  if (m.eintrittsdatum) zeilen.push(`seit ${new Date(m.eintrittsdatum).toLocaleDateString('de-DE')}`);
+  return `
+    <div class="bereich-card" data-id="${m.id}">
+      <strong>${m.name}</strong>
+      <span class="typ">${zeilen.join(' · ') || 'Noch keine weiteren Angaben'}</span>
+      <div class="bereich-actions">
+        <button class="bereich-delete" data-action="delete" title="Personalakte entfernen">×</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderMitarbeiterGrid() {
+  const grid = $('mitarbeiter-grid');
+  const empty = $('mitarbeiter-empty');
+  if (!grid) return;
+  empty.hidden = alleMitarbeiter.length > 0;
+  grid.innerHTML = alleMitarbeiter.map(mitarbeiterCardHtml).join('');
+  grid.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.closest('.bereich-card').dataset.id;
+      deleteMitarbeiter(id);
+    });
+  });
+}
+
+function renderMitarbeiterSelect() {
+  const select = $('sch-mitarbeiter');
+  if (!select) return;
+  const current = select.value;
+  select.innerHTML = '<option value="">Mitarbeiter wählen…</option>'
+    + alleMitarbeiter.map((m) => `<option value="${m.id}">${m.name}</option>`).join('');
+  if (current) select.value = current;
+}
+
+async function loadMitarbeiter() {
+  try {
+    const data = await api('/api/mitarbeiter');
+    alleMitarbeiter = data.mitarbeiter;
+  } catch (e) {
+    alleMitarbeiter = [];
+  }
+  renderMitarbeiterGrid();
+  renderMitarbeiterSelect();
+}
+
+async function addMitarbeiter() {
+  const name = $('ma-name').value.trim();
+  if (!name) { toast('Bitte einen Namen angeben.'); return; }
+  try {
+    const data = await api('/api/mitarbeiter', {
+      method: 'POST',
+      body: {
+        name,
+        rolle: $('ma-rolle').value,
+        email: $('ma-email').value.trim(),
+        eintrittsdatum: $('ma-eintritt').value || null,
+      },
+    });
+    alleMitarbeiter.unshift(data.mitarbeiter);
+    renderMitarbeiterGrid();
+    renderMitarbeiterSelect();
+    $('ma-name').value = '';
+    $('ma-rolle').value = '';
+    $('ma-email').value = '';
+    $('ma-eintritt').value = '';
+    toast(`Personalakte „${name}" angelegt.`);
+  } catch (e) {
+    toast(e.message || 'Mitarbeiter konnte nicht angelegt werden.');
+  }
+}
+
+async function deleteMitarbeiter(id) {
+  try {
+    await api(`/api/mitarbeiter/${encodeURIComponent(id)}`, { method: 'DELETE' });
+    alleMitarbeiter = alleMitarbeiter.filter((m) => m.id !== id);
+    renderMitarbeiterGrid();
+    renderMitarbeiterSelect();
+  } catch (e) {
+    toast(e.message || 'Personalakte konnte nicht entfernt werden.');
+  }
+}
+
+async function initPersonalakten() {
+  $('mitarbeiter-add-btn').addEventListener('click', addMitarbeiter);
+  await loadMitarbeiter();
+}
+
+// ================== Dienstplan ==================
+const DP_WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+let alleSchichten = [];
+let dpWeekStart = mondayOf(new Date());
+
+function mondayOf(date) {
+  const d = new Date(date);
+  const diff = (d.getDay() + 6) % 7; // Montag = 0
+  d.setDate(d.getDate() - diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function isoDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function renderDienstplan() {
+  const grid = $('dp-grid');
+  if (!grid) return;
+  const weekEnd = new Date(dpWeekStart);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+  $('dp-woche-label').textContent = `${dpWeekStart.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })} – ${weekEnd.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
+
+  const today = isoDate(new Date());
+  grid.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(dpWeekStart);
+    day.setDate(day.getDate() + i);
+    const dayIso = isoDate(day);
+    const schichtenDesTages = alleSchichten
+      .filter((s) => s.datum === dayIso)
+      .sort((a, b) => (a.beginn || '').localeCompare(b.beginn || ''));
+
+    const col = document.createElement('div');
+    col.className = 'dp-day' + (dayIso === today ? ' is-today' : '');
+    col.innerHTML = `
+      <div class="dp-day-head">${DP_WOCHENTAGE[i]}<span class="datum">${day.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}</span></div>
+      ${schichtenDesTages.length ? '' : '<span class="dp-day-empty">–</span>'}
+    `;
+    schichtenDesTages.forEach((s) => {
+      const chip = document.createElement('div');
+      chip.className = 'dp-shift';
+      chip.innerHTML = `
+        <button class="dp-remove" title="Schicht entfernen">×</button>
+        <strong>${s.mitarbeiterName}</strong>
+        <span class="zeit">${s.beginn || '–'}–${s.ende || '–'}</span>
+        ${s.bereich ? `<span class="bereich">${s.bereich}</span>` : ''}
+      `;
+      chip.querySelector('.dp-remove').addEventListener('click', () => deleteSchicht(s.id));
+      col.appendChild(chip);
+    });
+    grid.appendChild(col);
+  }
+}
+
+async function loadSchichten() {
+  try {
+    const data = await api('/api/schichten');
+    alleSchichten = data.schichten;
+  } catch (e) {
+    alleSchichten = [];
+  }
+  renderDienstplan();
+}
+
+async function addSchicht() {
+  const datum = $('sch-datum').value;
+  const mitarbeiterId = $('sch-mitarbeiter').value;
+  const mitarbeiter = alleMitarbeiter.find((m) => m.id === mitarbeiterId);
+  const statusEl = $('schicht-status');
+  if (!datum) { statusEl.textContent = 'Bitte ein Datum wählen.'; return; }
+  if (!mitarbeiter) { statusEl.textContent = 'Bitte einen Mitarbeiter wählen (siehe Personalakten).'; return; }
+
+  statusEl.textContent = 'Speichere …';
+  try {
+    const data = await api('/api/schichten', {
+      method: 'POST',
+      body: {
+        datum,
+        mitarbeiterId: mitarbeiter.id,
+        mitarbeiterName: mitarbeiter.name,
+        beginn: $('sch-beginn').value,
+        ende: $('sch-ende').value,
+        bereich: $('sch-bereich').value.trim(),
+      },
+    });
+    alleSchichten.unshift(data.schicht);
+    dpWeekStart = mondayOf(new Date(datum));
+    renderDienstplan();
+    $('sch-bereich').value = '';
+    statusEl.textContent = '';
+    toast(`Schicht für ${mitarbeiter.name} gespeichert.`);
+  } catch (e) {
+    statusEl.textContent = e.message || 'Schicht konnte nicht gespeichert werden.';
+  }
+}
+
+async function deleteSchicht(id) {
+  try {
+    await api(`/api/schichten/${encodeURIComponent(id)}`, { method: 'DELETE' });
+    alleSchichten = alleSchichten.filter((s) => s.id !== id);
+    renderDienstplan();
+  } catch (e) {
+    toast(e.message || 'Schicht konnte nicht entfernt werden.');
+  }
+}
+
+function initDienstplan() {
+  $('sch-datum').value = isoDate(new Date());
+  $('schicht-add-btn').addEventListener('click', addSchicht);
+  $('dp-prev').addEventListener('click', () => {
+    dpWeekStart.setDate(dpWeekStart.getDate() - 7);
+    renderDienstplan();
+  });
+  $('dp-next').addEventListener('click', () => {
+    dpWeekStart.setDate(dpWeekStart.getDate() + 7);
+    renderDienstplan();
+  });
+  loadSchichten();
+}
+
 // ---------- Boot ----------
 async function boot() {
   const user = await loadAccount();
@@ -688,6 +909,8 @@ async function boot() {
   renderAllergene();
   initBereiche();
   initPersonal();
+  await initPersonalakten();
+  initDienstplan();
 }
 
 boot();

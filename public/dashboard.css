@@ -132,6 +132,19 @@ body.dashboard-body{padding-inline:0;}
 .bereich-card .bereich-actions a:hover,.bereich-card .bereich-actions button:hover{background:var(--surface-2);}
 .bereich-card .bereich-delete{color:var(--danger);border-color:transparent;padding:7px 8px;}
 
+/* ---------- Dienstplan ---------- */
+.dienstplan-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:6px;}
+.dp-day{border:1px solid var(--border);border-radius:10px;padding:10px;min-height:130px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px;}
+.dp-day.is-today{border-color:var(--accent-strong);}
+.dp-day-head{font-size:.72rem;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;}
+.dp-day-head .datum{display:block;color:var(--ink);font-size:.88rem;font-family:'JetBrains Mono',monospace;margin-top:2px;font-weight:400;letter-spacing:0;text-transform:none;}
+.dp-shift{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:.78rem;display:flex;flex-direction:column;gap:2px;position:relative;}
+.dp-shift strong{font-size:.82rem;font-family:'Sora',sans-serif;}
+.dp-shift .zeit{color:var(--accent-strong);font-family:'JetBrains Mono',monospace;font-size:.72rem;}
+.dp-shift .bereich{color:var(--ink-soft);font-size:.72rem;}
+.dp-shift .dp-remove{position:absolute;top:4px;right:6px;border:0;background:transparent;color:var(--danger);cursor:pointer;font-size:.9rem;padding:0;line-height:1;}
+.dp-day-empty{color:var(--ink-soft);font-size:.74rem;}
+
 /* ---------- Personal / Zeiterfassung ---------- */
 .zeit-card{display:flex;flex-direction:column;align-items:center;gap:16px;padding:36px 20px;text-align:center;}
 .zeit-status{font-size:1.05rem;color:var(--ink-soft);}
@@ -146,4 +159,5 @@ body.dashboard-body{padding-inline:0;}
   .content{padding:24px 18px 48px;}
   .kalender-layout,.kalk-layout{grid-template-columns:1fr;}
   .kalk-add-row{grid-template-columns:1fr 1fr;}
+  .dienstplan-grid{grid-template-columns:repeat(2,1fr);}
 }

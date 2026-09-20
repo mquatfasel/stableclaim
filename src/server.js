@@ -545,6 +545,129 @@ async function handleZeiterfassungStop(req, res) {
   }
 }
 
+// ---------- Personal: Personalakten (Mitarbeiter-Stammdaten) ----------
+
+function handleMitarbeiterList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  return sendJSON(res, 200, { mitarbeiter: store.mitarbeiterStore.list(user.betrieb) });
+}
+
+async function handleMitarbeiterCreate(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  let body;
+  try {
+    body = await readJSONBody(req);
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+
+  const name = String(body.name || '').trim();
+  if (!name) return sendJSON(res, 400, { error: 'Bitte einen Namen angeben.' });
+
+  const mitarbeiter = {
+    id: crypto.randomUUID(),
+    betrieb: user.betrieb,
+    name,
+    rolle: String(body.rolle || '').trim(),
+    email: String(body.email || '').trim(),
+    telefon: String(body.telefon || '').trim(),
+    eintrittsdatum: body.eintrittsdatum || null,
+    notizen: String(body.notizen || '').trim(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  await store.mitarbeiterStore.insert(mitarbeiter);
+  return sendJSON(res, 201, { mitarbeiter });
+}
+
+async function handleMitarbeiterUpdate(req, res, id) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  let body;
+  try {
+    body = await readJSONBody(req);
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+  const patch = {};
+  ['name', 'rolle', 'email', 'telefon', 'eintrittsdatum', 'notizen'].forEach((key) => {
+    if (body[key] !== undefined) patch[key] = typeof body[key] === 'string' ? body[key].trim() : body[key];
+  });
+  try {
+    const mitarbeiter = await store.mitarbeiterStore.update(id, user.betrieb, patch);
+    return sendJSON(res, 200, { mitarbeiter });
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+}
+
+async function handleMitarbeiterDelete(req, res, id) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  try {
+    await store.mitarbeiterStore.remove(id, user.betrieb);
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+  return sendJSON(res, 200, { ok: true });
+}
+
+// ---------- Personal: Dienstplan (Schichten je Bereich/Mitarbeiter) ----------
+
+function handleSchichtenList(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  return sendJSON(res, 200, { schichten: store.schichtenStore.list(user.betrieb) });
+}
+
+async function handleSchichtenCreate(req, res) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+
+  let body;
+  try {
+    body = await readJSONBody(req);
+  } catch (e) {
+    return sendJSON(res, e.status || 400, { error: e.message });
+  }
+
+  const datum = String(body.datum || '').trim();
+  const mitarbeiterName = String(body.mitarbeiterName || '').trim();
+  if (!datum) return sendJSON(res, 400, { error: 'Bitte ein Datum angeben.' });
+  if (!mitarbeiterName) return sendJSON(res, 400, { error: 'Bitte einen Mitarbeiter angeben.' });
+
+  const schicht = {
+    id: crypto.randomUUID(),
+    betrieb: user.betrieb,
+    datum,
+    mitarbeiterId: body.mitarbeiterId || null,
+    mitarbeiterName,
+    beginn: String(body.beginn || '').trim(),
+    ende: String(body.ende || '').trim(),
+    bereich: String(body.bereich || '').trim(),
+    notizen: String(body.notizen || '').trim(),
+    erstelltVon: user.id,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  await store.schichtenStore.insert(schicht);
+  return sendJSON(res, 201, { schicht });
+}
+
+async function handleSchichtenDelete(req, res, id) {
+  const { user } = auth.currentUser(req);
+  if (!user) return sendJSON(res, 401, { error: 'Nicht angemeldet.' });
+  try {
+    await store.schichtenStore.remove(id, user.betrieb);
+  } catch (e) {
+    return sendJSON(res, e.code === 'NOT_FOUND' ? 404 : 500, { error: e.message });
+  }
+  return sendJSON(res, 200, { ok: true });
+}
+
 // ---------- statische Dateien ----------
 
 function serveStatic(req, res) {
@@ -608,6 +731,20 @@ const server = http.createServer((req, res) => {
     if (urlPath === '/api/zeiterfassung/eintraege' && req.method === 'GET') return void handleZeiterfassungList(req, res);
     if (urlPath === '/api/zeiterfassung/start' && req.method === 'POST') return void handleZeiterfassungStart(req, res);
     if (urlPath === '/api/zeiterfassung/stop' && req.method === 'POST') return void handleZeiterfassungStop(req, res);
+
+    if (urlPath === '/api/mitarbeiter' && req.method === 'GET') return void handleMitarbeiterList(req, res);
+    if (urlPath === '/api/mitarbeiter' && req.method === 'POST') return void handleMitarbeiterCreate(req, res);
+    if (urlPath.startsWith('/api/mitarbeiter/') && req.method === 'PATCH') {
+      return void handleMitarbeiterUpdate(req, res, decodeURIComponent(urlPath.slice('/api/mitarbeiter/'.length)));
+    }
+    if (urlPath.startsWith('/api/mitarbeiter/') && req.method === 'DELETE') {
+      return void handleMitarbeiterDelete(req, res, decodeURIComponent(urlPath.slice('/api/mitarbeiter/'.length)));
+    }
+    if (urlPath === '/api/schichten' && req.method === 'GET') return void handleSchichtenList(req, res);
+    if (urlPath === '/api/schichten' && req.method === 'POST') return void handleSchichtenCreate(req, res);
+    if (urlPath.startsWith('/api/schichten/') && req.method === 'DELETE') {
+      return void handleSchichtenDelete(req, res, decodeURIComponent(urlPath.slice('/api/schichten/'.length)));
+    }
 
     if (urlPath.startsWith('/api/')) {
       return sendJSON(res, 404, { error: 'Unbekannter Endpunkt.' });

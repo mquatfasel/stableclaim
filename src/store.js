@@ -28,6 +28,8 @@ const HACCP_CONCEPT_FILE = path.join(DATA_DIR, 'haccp-concept.json');
 const REINIGUNG_EINTRAEGE_FILE = path.join(DATA_DIR, 'reinigung-eintraege.json');
 const DOCUMENTS_FILE = path.join(DATA_DIR, 'documents.json');
 const SUPPORT_FILE = path.join(DATA_DIR, 'support.json');
+const MITARBEITER_FILE = path.join(DATA_DIR, 'mitarbeiter.json');
+const SCHICHTEN_FILE = path.join(DATA_DIR, 'schichten.json');
 
 // Die klassischen 14 Hauptallergene (LMIV/EU-Lebensmittelinformationsverordnung),
 // in der Formulierung, die schon im bestehenden Artikelstamm verwendet wird.
@@ -194,6 +196,8 @@ function ensureDataFiles() {
   if (!fs.existsSync(REINIGUNG_EINTRAEGE_FILE)) fs.writeFileSync(REINIGUNG_EINTRAEGE_FILE, '[]', 'utf8');
   if (!fs.existsSync(DOCUMENTS_FILE)) fs.writeFileSync(DOCUMENTS_FILE, '[]', 'utf8');
   if (!fs.existsSync(SUPPORT_FILE)) fs.writeFileSync(SUPPORT_FILE, '[]', 'utf8');
+  if (!fs.existsSync(MITARBEITER_FILE)) fs.writeFileSync(MITARBEITER_FILE, '[]', 'utf8');
+  if (!fs.existsSync(SCHICHTEN_FILE)) fs.writeFileSync(SCHICHTEN_FILE, '[]', 'utf8');
 }
 
 // Ein simpler In-Process-"Write-Lock": verhindert, dass zwei fast gleichzeitige
@@ -461,6 +465,8 @@ const haccpConceptStore = makeBetriebStore(HACCP_CONCEPT_FILE);
 const reinigungEintraegeStore = makeBetriebStore(REINIGUNG_EINTRAEGE_FILE);
 const documentsStore = makeBetriebStore(DOCUMENTS_FILE);
 const supportStore = makeBetriebStore(SUPPORT_FILE);
+const mitarbeiterStore = makeBetriebStore(MITARBEITER_FILE);
+const schichtenStore = makeBetriebStore(SCHICHTEN_FILE);
 
 // Beim allerersten Zugriff eines Betriebs auf den Artikelstamm: die
 // vollständige, echte CHEFS-CULINAR-Einkaufsliste (846 Artikel, siehe
@@ -560,6 +566,8 @@ module.exports = {
   reinigungEintraegeStore,
   documentsStore,
   supportStore,
+  mitarbeiterStore,
+  schichtenStore,
   seedArticlesForBetriebIfEmpty,
 };
 

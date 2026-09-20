@@ -30,6 +30,8 @@
         <button class="nav-item" data-view="haccp" type="button">HACCP</button>
         <button class="nav-item" data-view="reinigung" type="button">Reinigungspläne</button>
         <button class="nav-item" data-view="personal" type="button">Personal</button>
+        <button class="nav-item" data-view="personalakten" type="button">Personalakten</button>
+        <button class="nav-item" data-view="dienstplan" type="button">Dienstplan</button>
         <button class="nav-item" data-view="email" type="button">E-Mail</button>
         <button class="nav-item" data-view="dokumente" type="button">Dokumente</button>
         <button class="nav-item" data-view="support" type="button">Support</button>
@@ -270,6 +272,61 @@
             <tbody id="zeit-rows"></tbody>
           </table>
           <p class="hint" id="zeit-empty" hidden>Noch keine Zeiterfassungen vorhanden.</p>
+        </div>
+      </section>
+
+      <!-- Personalakten -->
+      <section id="view-personalakten" class="view">
+        <header class="view-head">
+          <h1>Personalakten</h1>
+          <p>Stammdaten, Rolle und Kontakt je Mitarbeiter — eine digitale Akte pro Person.</p>
+        </header>
+        <div class="card bereiche-form">
+          <div class="kalk-add-row" id="mitarbeiter-add-row" style="grid-template-columns:1.3fr 1.1fr 1.2fr 1fr auto;">
+            <input id="ma-name" type="text" placeholder="Name">
+            <select id="ma-rolle">
+              <option value="">Rolle…</option>
+              <option>Geschäftsleitung</option>
+              <option>Küchenchef / Souschef</option>
+              <option>Serviceleitung</option>
+              <option>Einkauf</option>
+              <option>HACCP-Verantwortlicher</option>
+              <option>Administrator</option>
+              <option>Mitarbeiter Küche / Service</option>
+            </select>
+            <input id="ma-email" type="email" placeholder="E-Mail">
+            <input id="ma-eintritt" type="date" title="Eintrittsdatum">
+            <button class="btn-ghost" id="mitarbeiter-add-btn" type="button">+ Mitarbeiter</button>
+          </div>
+        </div>
+        <div class="bereiche-grid" id="mitarbeiter-grid"></div>
+        <p class="hint" id="mitarbeiter-empty" hidden>Noch keine Mitarbeiter angelegt — lege oben die erste Personalakte an.</p>
+      </section>
+
+      <!-- Dienstplan -->
+      <section id="view-dienstplan" class="view">
+        <header class="view-head">
+          <h1>Dienstplan</h1>
+          <p>Schichten je Mitarbeiter und Bereich für die Woche planen.</p>
+        </header>
+        <div class="card bereiche-form">
+          <div class="kalk-add-row" id="schicht-add-row" style="grid-template-columns:1fr 1.3fr .8fr .8fr 1fr auto;">
+            <input id="sch-datum" type="date">
+            <select id="sch-mitarbeiter"></select>
+            <input id="sch-beginn" type="time" value="10:00">
+            <input id="sch-ende" type="time" value="18:00">
+            <input id="sch-bereich" type="text" placeholder="Bereich, z. B. Küche">
+            <button class="btn-ghost" id="schicht-add-btn" type="button">+ Schicht</button>
+          </div>
+          <p class="hint" id="schicht-status"></p>
+        </div>
+        <div class="card dienstplan-card">
+          <div class="kalender-head">
+            <button class="btn-ghost" id="dp-prev" type="button">‹</button>
+            <h3 class="mono" id="dp-woche-label">–</h3>
+            <button class="btn-ghost" id="dp-next" type="button">›</button>
+          </div>
+          <div class="dienstplan-grid" id="dp-grid"></div>
         </div>
       </section>
 
