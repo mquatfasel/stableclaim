@@ -6,7 +6,20 @@
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = path.join(__dirname, '..', 'data');
+// WICHTIG: Auf Render (und den meisten PaaS-Hostern) ist das Dateisystem eines
+// Web-Service standardmäßig NICHT persistent über Deploys hinweg — bei jedem
+// Deploy wird der Container neu aus dem Git-Stand gebaut. Läge DATA_DIR im
+// Git-Checkout, würden bei jedem Push alle im Git getrackten JSON-Dateien auf
+// den Commit-Stand zurückgesetzt und alle NICHT getrackten (z.B. users.json,
+// sessions.json) komplett verloren gehen — d.h. Logins/Accounts und alle live
+// erfassten Daten wären nach jedem Deploy weg. Deshalb: DATA_DIR ist über die
+// Env-Var DATA_DIR konfigurierbar. Auf Render MUSS dafür ein Persistent Disk
+// angelegt und gemountet werden (Dashboard → Service → Disks → Add Disk,
+// z.B. Mount Path /var/data) und die Env-Var DATA_DIR=/var/data gesetzt
+// werden — sonst bleibt das Problem bestehen, auch mit diesem Code-Fix.
+const DATA_DIR = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.join(__dirname, '..', 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const COMPONENTS_FILE = path.join(DATA_DIR, 'components.json');

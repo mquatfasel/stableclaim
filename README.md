@@ -102,6 +102,38 @@ Aus Sicherheitsgründen trägt diese Automatisierung selbst niemals
 Passwörter oder API-Schlüssel in Formulare ein — das erledigt der
 Betreiber im Stripe- bzw. Render-Dashboard.
 
+## ⚠️ Persistenter Speicher (Render Disk) — unbedingt einrichten
+
+Die App speichert alle Daten (Accounts, Artikel, Rezepturen, Bereiche,
+Dokumente, HACCP-Einträge, Leads, …) als JSON-Dateien unter dem Pfad, den
+`DATA_DIR` vorgibt (siehe `src/store.js`). **Ohne weitere Konfiguration liegt
+dieser Ordner im Git-Checkout des Deploys.** Render (wie die meisten PaaS-
+Hoster) baut den Container bei jedem Deploy neu aus dem Git-Stand auf — ein
+Ordner im Checkout ist dort NICHT über Deploys hinweg persistent. Das führt
+sonst dazu, dass nach jedem Push:
+
+- alle im Git getrackten Datendateien auf den zuletzt committeten Stand
+  zurückgesetzt werden, und
+- alle nicht getrackten Dateien (`users.json`, `sessions.json` — also
+  sämtliche Logins/Accounts) komplett verschwinden.
+
+**Einrichtung (einmalig, im Render-Dashboard):**
+
+1. Service auswählen → **Disks** → **Add Disk**.
+2. Mount Path: `/var/data` (Name frei wählbar), Größe z. B. 1 GB.
+3. Unter **Environment** die Variable `DATA_DIR` = `/var/data` setzen.
+4. Deploy neu auslösen.
+
+Ab diesem Zeitpunkt liegen alle Daten auf dem Disk und überleben jeden
+künftigen Deploy. **Wichtig:** Direkt nach der Erstumstellung ist der neue
+Disk-Ordner leer — Accounts und Daten müssen einmalig neu angelegt bzw.
+importiert werden, da der alte (nicht persistente) Datenstand nicht
+automatisch übernommen werden kann.
+
+Langfristig (siehe Punkt 47/48 der Projektvision: Mandantenfähigkeit,
+SaaS-Betrieb) sollte dies durch eine echte Datenbank (z. B. Render Postgres)
+ersetzt werden — die dateibasierte Lösung ist ein Übergangsmodell.
+
 ## Projektstruktur
 
 ```

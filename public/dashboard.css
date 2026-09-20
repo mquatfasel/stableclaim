@@ -61,7 +61,7 @@ body.dashboard-body{padding-inline:0;}
 .kalender-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;color:var(--ink-soft);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;margin-bottom:6px;}
 .kalender-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 .kal-day{
-  aspect-ratio:1;border-radius:10px;border:1px solid transparent;background:var(--surface-2);
+  aspect-ratio:1;max-height:64px;border-radius:10px;border:1px solid transparent;background:var(--surface-2);
   display:flex;align-items:flex-start;justify-content:flex-end;padding:6px;font-size:.82rem;font-family:'JetBrains Mono',monospace;
   color:var(--ink-soft);
 }
