@@ -14,7 +14,55 @@ const KALKULATIONEN_FILE = path.join(DATA_DIR, 'kalkulationen.json');
 const BEREICHE_FILE = path.join(DATA_DIR, 'bereiche.json');
 const ZEITERFASSUNG_FILE = path.join(DATA_DIR, 'zeiterfassung.json');
 
-// Komponenten für den Kalkulations-Baukasten (Gerichte & Buffet) — Artikelstamm-Kern.
+// Neue, "echte" Module der App-Shell (siehe public/dashboard.js): jeweils eine
+// einfache, je Betrieb (Mandant) gefilterte Liste in einer eigenen JSON-Datei.
+const ARTICLES_FILE = path.join(DATA_DIR, 'articles.json');
+const KALKULATION_POSITIONEN_FILE = path.join(DATA_DIR, 'kalkulation-positionen.json');
+const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
+const SUPPLIERS_FILE = path.join(DATA_DIR, 'suppliers.json');
+const SUPPLIER_PRICES_FILE = path.join(DATA_DIR, 'supplier-prices.json');
+const AUFGABEN_FILE = path.join(DATA_DIR, 'aufgaben.json');
+const GERICHTE_FILE = path.join(DATA_DIR, 'gerichte.json');
+const HACCP_EQUIPMENT_FILE = path.join(DATA_DIR, 'haccp-equipment.json');
+const HACCP_CONCEPT_FILE = path.join(DATA_DIR, 'haccp-concept.json');
+const REINIGUNG_EINTRAEGE_FILE = path.join(DATA_DIR, 'reinigung-eintraege.json');
+const DOCUMENTS_FILE = path.join(DATA_DIR, 'documents.json');
+const SUPPORT_FILE = path.join(DATA_DIR, 'support.json');
+
+// Die klassischen 14 Hauptallergene (LMIV/EU-Lebensmittelinformationsverordnung),
+// in der Formulierung, die schon im bestehenden Artikelstamm verwendet wird.
+const ALLERGENE_14 = [
+  'Glutenhaltiges Getreide',
+  'Krebstiere und -erzeugnisse',
+  'Eier und -erzeugnisse',
+  'Fisch und -erzeugnisse',
+  'Erdnüsse und -erzeugnisse',
+  'Sojabohnen und -erzeugnisse',
+  'Milch und -erzeugnisse (Laktose)',
+  'Schalenfrüchte (Nüsse)',
+  'Sellerie',
+  'Senf',
+  'Sesamsamen',
+  'Schwefeldioxid und Sulfite',
+  'Lupinen und -erzeugnisse',
+  'Weichtiere und -erzeugnisse',
+];
+
+// Bestehende Schreibweisen aus dem Artikelstamm (Komponenten-Baukasten) auf die
+// kanonische 14er-Liste abbilden, damit Allergenangaben überall gleich heißen.
+const ALLERGEN_ALIAS = {
+  'Milch und -erzeugnisse': 'Milch und -erzeugnisse (Laktose)',
+  'Laktose': 'Milch und -erzeugnisse (Laktose)',
+  'Eier und -erzeugnisse': 'Eier und -erzeugnisse',
+  'Weichtiere und -erzeugnisse': 'Weichtiere und -erzeugnisse',
+  'Krebstiere und -erzeugnisse': 'Krebstiere und -erzeugnisse',
+};
+function normalizeAllergen(name) {
+  return ALLERGEN_ALIAS[name] || name;
+}
+
+// Komponenten für den (älteren) Kalkulations-Baukasten (Gerichte & Buffet) —
+// bleibt als Datenbasis für /api/components und /api/kalkulationen bestehen.
 // Preise und Allergene stammen aus dem echten CHEFS-CULINAR-Konto von SO[U]L Grömitz
 // (Kundennummer 120455117, Einkaufsliste "Käufe der letzten 12 Monate"), Stand 20.09.2026.
 // "allergene: null" bedeutet: beim jeweiligen Lieferanten noch nicht geprüft — kein
@@ -42,6 +90,90 @@ const DEFAULT_COMPONENTS = [
   { id: 'valenzi-preiselbeeren', name: 'Valenzi Kulturpreiselbeeren, 2 KG Eimer', kategorie: 'Sonstiges', einheit: 'kg', preisProEinheit: 7.75, allergene: null, lieferant: 'CHEFS CULINAR (Valenzi)', artikelnummer: '14002328', quelle: 'Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)' },
 ];
 
+// Startbestückung für den neuen, echten Artikelstamm (/api/articles): aus den
+// obigen CHEFS-CULINAR-Komponenten abgeleitet (ein Lieferant "CHEFS CULINAR"
+// wird beim ersten Serverstart automatisch angelegt, siehe insertDefaultSupplierIfMissing).
+function buildDefaultArticlesFromComponents() {
+  return DEFAULT_COMPONENTS.map((c) => ({
+    id: c.id,
+    betrieb: null, // wird beim ersten Zugriff je Betrieb dupliziert, siehe seedArticlesForBetrieb
+    name: c.name,
+    artikelnummer: c.artikelnummer || '',
+    kategorie: c.kategorie || '',
+    lieferantId: null, // wird bei der Aussaat auf den Standard-Lieferanten gesetzt
+    gebindegroesse: 1,
+    gebindeeinheit: c.einheit,
+    einheit: c.einheit,
+    einheitspreis: c.preisProEinheit,
+    preisProGebinde: c.preisProEinheit,
+    vorherigerPreisProGebinde: null,
+    preisAenderungProzent: null,
+    preisHistorie: [{ preis: c.preisProEinheit, datum: new Date().toISOString() }],
+    mindestbestand: null,
+    aktuellerBestand: null,
+    allergene: Array.isArray(c.allergene) ? c.allergene.map(normalizeAllergen) : [],
+    allergeneUnbekannt: c.allergene === null,
+    notizen: c.quelle || '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }));
+}
+
+// ---------- Echter Artikelstamm-Seed: komplette CHEFS-CULINAR-Einkaufsliste ----------
+// Vollständiger, aus dem hochgeladenen PDF "Artikelverzeichnis - Käufe der
+// letzten 12 Monate" (CHEFS CULINAR, Abrufdatum 20.09.2026) extrahierter
+// Datenbestand: 846 real eingekaufte Artikel mit aktuellen Einkaufspreisen und
+// auf die kanonische 14er-Allergenliste normierten Allergenangaben. Diese
+// Datei ist die Startbestückung für den echten Artikelstamm (/api/articles);
+// DEFAULT_COMPONENTS oben bleibt unverändert die Basis für den älteren
+// Kalkulations-Baukasten (/api/components, /api/kalkulationen).
+const CHEFS_CULINAR_SEED_FILE = path.join(__dirname, 'data', 'chefs-culinar-artikel.json');
+let chefsCulinarSeedCache = null;
+function loadChefsCulinarSeedArticles() {
+  if (chefsCulinarSeedCache) return chefsCulinarSeedCache;
+  try {
+    const raw = fs.readFileSync(CHEFS_CULINAR_SEED_FILE, 'utf8');
+    chefsCulinarSeedCache = JSON.parse(raw);
+  } catch (e) {
+    // Fällt zurück auf die kleine, handkuratierte Liste, falls die Datei
+    // einmal fehlen sollte (z. B. in einer älteren Bereitstellung).
+    chefsCulinarSeedCache = [];
+  }
+  return chefsCulinarSeedCache;
+}
+
+function buildDefaultArticlesFromChefsCulinar() {
+  const rows = loadChefsCulinarSeedArticles();
+  if (!rows.length) return buildDefaultArticlesFromComponents();
+  return rows.map((c) => ({
+    id: c.id,
+    betrieb: null, // wird beim ersten Zugriff je Betrieb dupliziert, siehe seedArticlesForBetriebIfEmpty
+    name: c.name,
+    artikelnummer: c.artikelnummer || '',
+    kategorie: c.kategorie || '',
+    lieferantId: null, // wird bei der Aussaat auf den Standard-Lieferanten gesetzt
+    gebindegroesse: c.gebindegroesse || 1,
+    gebindeeinheit: c.gebindeeinheit || '',
+    einheit: c.gebindeeinheit || '',
+    einheitspreis: c.preisProGebinde,
+    preisProGebinde: c.preisProGebinde,
+    vorherigerPreisProGebinde: null,
+    preisAenderungProzent: null,
+    preisHistorie: c.preisProGebinde != null ? [{ preis: c.preisProGebinde, datum: new Date().toISOString() }] : [],
+    mindestbestand: null,
+    aktuellerBestand: null,
+    allergene: Array.isArray(c.allergene) ? c.allergene.map(normalizeAllergen) : [],
+    allergeneUnbekannt: !!c.allergeneUnbekannt,
+    zusatzstoffe: Array.isArray(c.zusatzstoffe) ? c.zusatzstoffe : [],
+    zusatzstoffeUnbekannt: !!c.zusatzstoffeUnbekannt,
+    zutaten: c.zutaten || '',
+    verfuegbar: c.verfuegbar !== false,
+    notizen: c.notizen || '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }));
+}
+
 function ensureDataFiles() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(USERS_FILE)) fs.writeFileSync(USERS_FILE, '[]', 'utf8');
@@ -50,6 +182,18 @@ function ensureDataFiles() {
   if (!fs.existsSync(KALKULATIONEN_FILE)) fs.writeFileSync(KALKULATIONEN_FILE, '[]', 'utf8');
   if (!fs.existsSync(BEREICHE_FILE)) fs.writeFileSync(BEREICHE_FILE, '[]', 'utf8');
   if (!fs.existsSync(ZEITERFASSUNG_FILE)) fs.writeFileSync(ZEITERFASSUNG_FILE, '[]', 'utf8');
+  if (!fs.existsSync(ARTICLES_FILE)) fs.writeFileSync(ARTICLES_FILE, '[]', 'utf8');
+  if (!fs.existsSync(KALKULATION_POSITIONEN_FILE)) fs.writeFileSync(KALKULATION_POSITIONEN_FILE, '[]', 'utf8');
+  if (!fs.existsSync(LEADS_FILE)) fs.writeFileSync(LEADS_FILE, '[]', 'utf8');
+  if (!fs.existsSync(SUPPLIERS_FILE)) fs.writeFileSync(SUPPLIERS_FILE, '[]', 'utf8');
+  if (!fs.existsSync(SUPPLIER_PRICES_FILE)) fs.writeFileSync(SUPPLIER_PRICES_FILE, '[]', 'utf8');
+  if (!fs.existsSync(AUFGABEN_FILE)) fs.writeFileSync(AUFGABEN_FILE, '[]', 'utf8');
+  if (!fs.existsSync(GERICHTE_FILE)) fs.writeFileSync(GERICHTE_FILE, '[]', 'utf8');
+  if (!fs.existsSync(HACCP_EQUIPMENT_FILE)) fs.writeFileSync(HACCP_EQUIPMENT_FILE, '[]', 'utf8');
+  if (!fs.existsSync(HACCP_CONCEPT_FILE)) fs.writeFileSync(HACCP_CONCEPT_FILE, '[]', 'utf8');
+  if (!fs.existsSync(REINIGUNG_EINTRAEGE_FILE)) fs.writeFileSync(REINIGUNG_EINTRAEGE_FILE, '[]', 'utf8');
+  if (!fs.existsSync(DOCUMENTS_FILE)) fs.writeFileSync(DOCUMENTS_FILE, '[]', 'utf8');
+  if (!fs.existsSync(SUPPORT_FILE)) fs.writeFileSync(SUPPORT_FILE, '[]', 'utf8');
 }
 
 // Ein simpler In-Process-"Write-Lock": verhindert, dass zwei fast gleichzeitige
@@ -194,10 +338,6 @@ async function deleteKalkulation(id, betrieb) {
 }
 
 // ---------- Bereiche (Arbeitsflächen/Betriebsbereiche) ----------
-// Der Nutzer baut seinen Betrieb Stück für Stück auf, indem er eigene Bereiche
-// anlegt (z. B. "Küche", "Kühlhaus", "Bar", "Spülbereich"). Für jeden Bereich
-// lassen sich HACCP- und Reinigungsplan-Vorlagen als PDF-taugliche, druckbare
-// Seiten herunterladen (siehe /api/vorlagen/* in server.js).
 function getBereiche(betrieb) {
   const alle = readJSON(BEREICHE_FILE) || [];
   return alle.filter((b) => b.betrieb === betrieb);
@@ -263,7 +403,129 @@ async function stoppeZeiterfassung(userId, ende) {
   return alle[idx];
 }
 
+// ---------- generischer, je Betrieb gefilterter Listen-Speicher ----------
+// Für die neuen App-Shell-Module (Artikelstamm, Kalkulation, Anfragen, ...):
+// alle folgen demselben Muster (Liste je Betrieb, per id gesucht/gelöscht).
+function makeBetriebStore(file) {
+  function all() {
+    return readJSON(file) || [];
+  }
+  function list(betrieb) {
+    return all().filter((x) => x.betrieb === betrieb);
+  }
+  function findById(id, betrieb) {
+    return list(betrieb).find((x) => x.id === id) || null;
+  }
+  async function insert(item) {
+    const items = all();
+    items.unshift(item);
+    await writeJSON(file, items);
+    return item;
+  }
+  async function update(id, betrieb, patch) {
+    const items = all();
+    const idx = items.findIndex((x) => x.id === id && x.betrieb === betrieb);
+    if (idx === -1) {
+      const err = new Error('Eintrag nicht gefunden');
+      err.code = 'NOT_FOUND';
+      throw err;
+    }
+    items[idx] = { ...items[idx], ...patch, id: items[idx].id, betrieb: items[idx].betrieb, updatedAt: new Date().toISOString() };
+    await writeJSON(file, items);
+    return items[idx];
+  }
+  async function remove(id, betrieb) {
+    const items = all();
+    const idx = items.findIndex((x) => x.id === id && x.betrieb === betrieb);
+    if (idx === -1) {
+      const err = new Error('Eintrag nicht gefunden');
+      err.code = 'NOT_FOUND';
+      throw err;
+    }
+    const [removed] = items.splice(idx, 1);
+    await writeJSON(file, items);
+    return removed;
+  }
+  return { all, list, findById, insert, update, remove };
+}
+
+const articlesStore = makeBetriebStore(ARTICLES_FILE);
+const kalkulationPositionenStore = makeBetriebStore(KALKULATION_POSITIONEN_FILE);
+const leadsStore = makeBetriebStore(LEADS_FILE);
+const suppliersStore = makeBetriebStore(SUPPLIERS_FILE);
+const supplierPricesStore = makeBetriebStore(SUPPLIER_PRICES_FILE);
+const aufgabenStore = makeBetriebStore(AUFGABEN_FILE);
+const gerichteStore = makeBetriebStore(GERICHTE_FILE);
+const haccpEquipmentStore = makeBetriebStore(HACCP_EQUIPMENT_FILE);
+const haccpConceptStore = makeBetriebStore(HACCP_CONCEPT_FILE);
+const reinigungEintraegeStore = makeBetriebStore(REINIGUNG_EINTRAEGE_FILE);
+const documentsStore = makeBetriebStore(DOCUMENTS_FILE);
+const supportStore = makeBetriebStore(SUPPORT_FILE);
+
+// Beim allerersten Zugriff eines Betriebs auf den Artikelstamm: die
+// vollständige, echte CHEFS-CULINAR-Einkaufsliste (846 Artikel, siehe
+// buildDefaultArticlesFromChefsCulinar) als Startbestückung übernehmen (nur,
+// wenn der Betrieb noch gar keine Artikel hat) — inklusive eines
+// Standard-Lieferanten "CHEFS CULINAR".
+async function seedArticlesForBetriebIfEmpty(betrieb) {
+  if (articlesStore.list(betrieb).length) return;
+  let supplier = suppliersStore.list(betrieb).find((s) => s.name === 'CHEFS CULINAR');
+  if (!supplier) {
+    supplier = {
+      id: 'seed-chefs-culinar',
+      betrieb,
+      name: 'CHEFS CULINAR',
+      ansprechpartner: '',
+      bestelltage: '',
+      mindestbestellwert: null,
+      lieferkosten: null,
+      zahlungsbedingungen: '',
+      telefon: '',
+      email: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    await suppliersStore.insert(supplier);
+  }
+  const seedArticles = buildDefaultArticlesFromChefsCulinar().map((a) => ({
+    ...a,
+    betrieb,
+    lieferantId: supplier.id,
+  }));
+  for (const article of seedArticles) {
+    await articlesStore.insert(article);
+  }
+}
+
+// ---------- HACCP: eingebaute Baustein-Bibliothek + Ausrüstungstypen (statisch) ----------
+const HACCP_EQUIPMENT_TYPES = [
+  { id: 'kuehlhaus', label: 'Kühlhaus' },
+  { id: 'kuehlaggregat', label: 'Kühlaggregat / Kühltresen' },
+  { id: 'tiefkuehlung', label: 'Tiefkühlung' },
+  { id: 'oberflaeche', label: 'Arbeitsfläche / Oberfläche' },
+  { id: 'geraet', label: 'Gerät' },
+  { id: 'sonstiges', label: 'Sonstiges' },
+];
+
+const HACCP_LIBRARY = [
+  { id: 'tmpl-kuehlhaus', name: 'Temperaturkontrolle Kühlhaus', kategorie: 'Wareneingang & Lager', intervall: 'täglich', sollwertMin: 0, sollwertMax: 7, einheit: '°C', beschreibung: 'Kerntemperatur beim morgendlichen Check dokumentieren.' },
+  { id: 'tmpl-tiefkuehlung', name: 'Temperaturkontrolle Tiefkühlung', kategorie: 'Wareneingang & Lager', intervall: 'täglich', sollwertMin: -22, sollwertMax: -18, einheit: '°C', beschreibung: 'Tiefkühlzellen/-truhen prüfen und dokumentieren.' },
+  { id: 'tmpl-wareneingang', name: 'Wareneingangskontrolle', kategorie: 'Wareneingang & Lager', intervall: 'bei jeder Lieferung', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Temperatur, Verpackung, Mindesthaltbarkeit und Menge je Lieferung prüfen.' },
+  { id: 'tmpl-fritteuse', name: 'Fritteusenöl-Kontrolle', kategorie: 'Küche', intervall: 'täglich', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Polare Anteile/Optik prüfen, Ölwechsel dokumentieren.' },
+  { id: 'tmpl-spuelmaschine', name: 'Spülmaschinen-Temperatur', kategorie: 'Küche', intervall: 'täglich', sollwertMin: 60, sollwertMax: 85, einheit: '°C', beschreibung: 'Klarspül- und Reinigungstemperatur dokumentieren.' },
+  { id: 'tmpl-personalhygiene', name: 'Personalhygiene-Kontrolle', kategorie: 'Personal', intervall: 'wöchentlich', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Arbeitskleidung, Handhygiene, Gesundheitsbelehrung nach §43 IfSG.' },
+  { id: 'tmpl-schaedlinge', name: 'Schädlingsmonitoring', kategorie: 'Betrieb', intervall: 'monatlich', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Köderstationen/Fallen kontrollieren, Auffälligkeiten dokumentieren.' },
+  { id: 'tmpl-reinigungsnachweis', name: 'Reinigung & Desinfektion Küche', kategorie: 'Küche', intervall: 'täglich', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Abschluss der täglichen Grundreinigung gegenzeichnen.' },
+  { id: 'tmpl-warmhaltung', name: 'Warmhaltekontrolle Speisen', kategorie: 'Küche', intervall: 'täglich', sollwertMin: 65, sollwertMax: null, einheit: '°C', beschreibung: 'Kerntemperatur warmgehaltener Speisen vor Ausgabe prüfen.' },
+  { id: 'tmpl-kuehltresen-theke', name: 'Kühltresen Theke/Bar', kategorie: 'Bar', intervall: 'täglich', sollwertMin: 0, sollwertMax: 7, einheit: '°C', beschreibung: 'Kühltresen und Kühlvitrinen im Servicebereich prüfen.' },
+  { id: 'tmpl-eiswuerfel', name: 'Eiswürfelmaschine', kategorie: 'Bar', intervall: 'wöchentlich', sollwertMin: null, sollwertMax: null, einheit: '', beschreibung: 'Hygienezustand und Reinigung der Eiswürfelmaschine prüfen.' },
+];
+
 module.exports = {
+  ALLERGENE_14,
+  normalizeAllergen,
+  HACCP_EQUIPMENT_TYPES,
+  HACCP_LIBRARY,
   getUsers,
   findUserByEmail,
   findUserById,
@@ -286,4 +548,18 @@ module.exports = {
   findOffenenEintrag,
   starteZeiterfassung,
   stoppeZeiterfassung,
+  articlesStore,
+  kalkulationPositionenStore,
+  leadsStore,
+  suppliersStore,
+  supplierPricesStore,
+  aufgabenStore,
+  gerichteStore,
+  haccpEquipmentStore,
+  haccpConceptStore,
+  reinigungEintraegeStore,
+  documentsStore,
+  supportStore,
+  seedArticlesForBetriebIfEmpty,
 };
+
