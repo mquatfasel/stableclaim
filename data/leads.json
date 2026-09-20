@@ -1,0 +1,36 @@
+[
+  {
+    "id": "87712fbc-449d-475e-b0e2-6b849afb8338",
+    "betrieb": "Test Betrieb GmbH",
+    "kundeName": "Max Mustermann",
+    "kundeKontakt": "",
+    "anlass": "Geburtstag",
+    "eventTyp": "",
+    "personen": 40,
+    "termin": "",
+    "budgetProPerson": "",
+    "allergien": [],
+    "status": "Neue Anfrage",
+    "quelle": "manuell",
+    "createdAt": "2026-09-19T23:26:34.527Z",
+    "updatedAt": "2026-09-19T23:26:34.527Z"
+  },
+  {
+    "id": "6b400d0c-6e1e-4114-a8cd-7e6259660c35",
+    "betrieb": "Test Betrieb",
+    "kundeName": "Anna Beispiel",
+    "kundeKontakt": "anna.beispiel@web.de",
+    "anlass": "Weihnachtsfeier",
+    "eventTyp": "Buffet",
+    "personen": 45,
+    "termin": "20.12.2026",
+    "budgetProPerson": "55 €",
+    "allergien": [
+      "Schalenfrüchte (Nüsse)"
+    ],
+    "status": "Neue Anfrage",
+    "quelle": "email",
+    "createdAt": "2026-09-19T23:14:04.495Z",
+    "updatedAt": "2026-09-19T23:14:04.495Z"
+  }
+]

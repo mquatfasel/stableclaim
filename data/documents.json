@@ -1,0 +1,43 @@
+[
+  {
+    "id": "65b1ba15-7301-4ef5-9a69-a56c1ca987ff",
+    "betrieb": "Test Betrieb",
+    "filename": "preisliste.csv",
+    "dokumentTyp": "Preisliste",
+    "sheetName": null,
+    "sheetNames": [],
+    "candidates": [
+      {
+        "rowIndex": 0,
+        "name": "O+G Knoblauch, Beutel, 1 KG",
+        "artikelnummer": "14757556",
+        "kategorie": "Gemüse",
+        "preisProGebinde": 9.1,
+        "status": "preisaenderung",
+        "matchedArticleId": "og-knoblauch",
+        "preisAlt": 8.54,
+        "preisDiffProzent": 6.6
+      },
+      {
+        "rowIndex": 1,
+        "name": "Ganz neuer Artikel Testware",
+        "artikelnummer": "99999",
+        "kategorie": "Sonstiges",
+        "preisProGebinde": 3.5,
+        "status": "neu",
+        "matchedArticleId": null,
+        "preisAlt": null,
+        "preisDiffProzent": null
+      }
+    ],
+    "appliedRowIndexes": [
+      0,
+      1
+    ],
+    "warning": null,
+    "fileBase64": "QXJ0aWtlbDtBcnRpa2VsbnVtbWVyO0thdGVnb3JpZTtQcmVpcyBwcm8gR2ViaW5kZQpPK0cgS25vYmxhdWNoLCBCZXV0ZWwsIDEgS0c7MTQ3NTc1NTY7R2Vtw7xzZTs5LDEwCkdhbnogbmV1ZXIgQXJ0aWtlbCBUZXN0d2FyZTs5OTk5OTtTb25zdGlnZXM7Myw1MAo=",
+    "fileMime": "text/csv",
+    "createdAt": "2026-09-19T23:14:18.813Z",
+    "updatedAt": "2026-09-19T23:14:18.871Z"
+  }
+]

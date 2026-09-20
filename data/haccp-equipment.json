@@ -1,0 +1,15 @@
+[
+  {
+    "id": "58e272a6-935a-47b5-a7f7-b3c4c48118b2",
+    "betrieb": "Test Betrieb",
+    "name": "Kühlhaus 1",
+    "typ": "kuehlhaus",
+    "standort": "Keller",
+    "sollwertMin": 0,
+    "sollwertMax": 7,
+    "einheit": "°C",
+    "notizen": "",
+    "createdAt": "2026-09-19T23:14:04.534Z",
+    "updatedAt": "2026-09-19T23:14:04.534Z"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "2361f876-278a-401e-b2d0-28a3d9bb50ba",
+    "betrieb": "Test Betrieb",
+    "titel": "Kühlhaustemperatur prüfen",
+    "bereich": "",
+    "verantwortlicher": "",
+    "prioritaet": "hoch",
+    "deadline": "2020-01-01",
+    "beschreibung": "",
+    "status": "offen",
+    "createdAt": "2026-09-19T23:14:27.435Z",
+    "updatedAt": "2026-09-19T23:14:27.435Z"
+  }
+]

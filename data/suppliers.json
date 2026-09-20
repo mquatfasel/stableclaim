@@ -1,0 +1,30 @@
+[
+  {
+    "id": "seed-chefs-culinar",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "CHEFS CULINAR",
+    "ansprechpartner": "",
+    "bestelltage": "",
+    "mindestbestellwert": null,
+    "lieferkosten": null,
+    "zahlungsbedingungen": "",
+    "telefon": "",
+    "email": "",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "seed-chefs-culinar",
+    "betrieb": "Test Betrieb",
+    "name": "CHEFS CULINAR",
+    "ansprechpartner": "",
+    "bestelltage": "",
+    "mindestbestellwert": null,
+    "lieferkosten": null,
+    "zahlungsbedingungen": "",
+    "telefon": "",
+    "email": "",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  }
+]

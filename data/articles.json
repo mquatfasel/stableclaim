@@ -1,0 +1,1060 @@
+[
+  {
+    "id": "valenzi-preiselbeeren",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Valenzi Kulturpreiselbeeren, 2 KG Eimer",
+    "artikelnummer": "14002328",
+    "kategorie": "Sonstiges",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 7.75,
+    "preisProGebinde": 7.75,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 7.75,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "base-culinar-wuerfelspeck",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Base Culinar Würfelspeck, gepökelt, 8x8mm",
+    "artikelnummer": "60169275",
+    "kategorie": "Fleisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 5.5,
+    "preisProGebinde": 5.5,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 5.5,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "tk-pfifferlinge",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "TK Base Culinar Pfifferlinge, blanchiert",
+    "artikelnummer": "14384080",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 15.02,
+    "preisProGebinde": 15.02,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 15.02,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "black-tiger-garnelen",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "TK Star Culinar Black Tiger Garnelen, ohne Schale",
+    "artikelnummer": "14397820",
+    "kategorie": "Fisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 16.19,
+    "preisProGebinde": 16.19,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 16.19,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "tk-frutti-di-mare",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "TK Frutti di Mare, Meeresfrüchtemischung, blanchiert",
+    "artikelnummer": "60037861",
+    "kategorie": "Fisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 9.98,
+    "preisProGebinde": 9.98,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 9.98,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Weichtiere und -erzeugnisse",
+      "Krebstiere und -erzeugnisse"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "greco-feta",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Greco Feta, Schaf-/Ziegenmilch, 48% Fett i.Tr.",
+    "artikelnummer": "10315200",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 14.44,
+    "preisProGebinde": 14.44,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 14.44,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "mascarpone",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Mascarpone mind. 81%, 2 KG Eimer",
+    "artikelnummer": "14607103",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 9.3,
+    "preisProGebinde": 9.3,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 9.3,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "base-culinar-schmand",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Base Culinar Schmand 24%, 5 KG Eimer",
+    "artikelnummer": "60096181",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 4.2,
+    "preisProGebinde": 4.2,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 4.2,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Milch und -erzeugnisse (Laktose)",
+      "Milch und -erzeugnisse (Laktose)"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "grana-padano",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Grana Padano gehobelt, 0,5 KG",
+    "artikelnummer": "18858570",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 18.78,
+    "preisProGebinde": 18.78,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 18.78,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Eier und -erzeugnisse",
+      "Milch und -erzeugnisse (Laktose)"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "ifri-rucola",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "IFRI 5 Rucola, gewaschen, 500g",
+    "artikelnummer": "18399714",
+    "kategorie": "Salat",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Beutel",
+    "einheit": "Beutel",
+    "einheitspreis": 5.85,
+    "preisProGebinde": 5.85,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 5.85,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-schnittlauch",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Kräuter, Schnittlauch, 100g Bund",
+    "artikelnummer": "14761249",
+    "kategorie": "Kräuter",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 1.82,
+    "preisProGebinde": 1.82,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.82,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-petersilie",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Kräuter, Petersilie kraus, 250g Bund",
+    "artikelnummer": "14761003",
+    "kategorie": "Kräuter",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 1.65,
+    "preisProGebinde": 1.65,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.65,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-tomaten-cherry",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Cherrystrauchtomaten Premium, 1 KG",
+    "artikelnummer": "14760037",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 8.68,
+    "preisProGebinde": 8.68,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 8.68,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-zwiebeln-rot",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Zwiebeln, rot, geschält, 5 KG",
+    "artikelnummer": "15033079",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 1.99,
+    "preisProGebinde": 1.99,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.99,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-radieschen",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Radieschen, ohne Grün, 1 KG",
+    "artikelnummer": "14758263",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 2.06,
+    "preisProGebinde": 2.06,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 2.06,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-lauchzwiebeln",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Lauchzwiebeln, 120g Bund",
+    "artikelnummer": "14757709",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 0.52,
+    "preisProGebinde": 0.52,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 0.52,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-salatmischung-wildkraeuter",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Salatmischung, Wildkräuter, 250g",
+    "artikelnummer": "14667671",
+    "kategorie": "Salat",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Schale",
+    "einheit": "Schale",
+    "einheitspreis": 4.65,
+    "preisProGebinde": 4.65,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 4.65,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "og-knoblauch",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "O+G Knoblauch, Beutel, 1 KG",
+    "artikelnummer": "14757556",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 8.54,
+    "preisProGebinde": 8.54,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 8.54,
+        "datum": "2026-09-19T23:26:11.417Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:26:11.417Z",
+    "updatedAt": "2026-09-19T23:26:11.417Z"
+  },
+  {
+    "id": "3c23b2da-6a5b-40fe-a070-38f7aab730b7",
+    "betrieb": "Test Betrieb",
+    "name": "Ganz neuer Artikel Testware",
+    "artikelnummer": "99999",
+    "kategorie": "Sonstiges",
+    "lieferantId": null,
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 3.5,
+    "preisProGebinde": 3.5,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 3.5,
+        "datum": "2026-09-19T23:14:18.871Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Übernommen aus preisliste.csv",
+    "createdAt": "2026-09-19T23:14:18.871Z",
+    "updatedAt": "2026-09-19T23:14:18.871Z"
+  },
+  {
+    "id": "valenzi-preiselbeeren",
+    "betrieb": "Test Betrieb",
+    "name": "Valenzi Kulturpreiselbeeren, 2 KG Eimer",
+    "artikelnummer": "14002328",
+    "kategorie": "Sonstiges",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 7.75,
+    "preisProGebinde": 7.75,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 7.75,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "base-culinar-wuerfelspeck",
+    "betrieb": "Test Betrieb",
+    "name": "Base Culinar Würfelspeck, gepökelt, 8x8mm",
+    "artikelnummer": "60169275",
+    "kategorie": "Fleisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 5.5,
+    "preisProGebinde": 5.5,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 5.5,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "tk-pfifferlinge",
+    "betrieb": "Test Betrieb",
+    "name": "TK Base Culinar Pfifferlinge, blanchiert",
+    "artikelnummer": "14384080",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 15.02,
+    "preisProGebinde": 15.02,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 15.02,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "black-tiger-garnelen",
+    "betrieb": "Test Betrieb",
+    "name": "TK Star Culinar Black Tiger Garnelen, ohne Schale",
+    "artikelnummer": "14397820",
+    "kategorie": "Fisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 16.19,
+    "preisProGebinde": 16.19,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 16.19,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "tk-frutti-di-mare",
+    "betrieb": "Test Betrieb",
+    "name": "TK Frutti di Mare, Meeresfrüchtemischung, blanchiert",
+    "artikelnummer": "60037861",
+    "kategorie": "Fisch",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 9.98,
+    "preisProGebinde": 9.98,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 9.98,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Weichtiere und -erzeugnisse",
+      "Krebstiere und -erzeugnisse"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "greco-feta",
+    "betrieb": "Test Betrieb",
+    "name": "Greco Feta, Schaf-/Ziegenmilch, 48% Fett i.Tr.",
+    "artikelnummer": "10315200",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 14.44,
+    "preisProGebinde": 14.44,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 14.44,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "mascarpone",
+    "betrieb": "Test Betrieb",
+    "name": "Mascarpone mind. 81%, 2 KG Eimer",
+    "artikelnummer": "14607103",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 9.3,
+    "preisProGebinde": 9.3,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 9.3,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "base-culinar-schmand",
+    "betrieb": "Test Betrieb",
+    "name": "Base Culinar Schmand 24%, 5 KG Eimer",
+    "artikelnummer": "60096181",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 4.2,
+    "preisProGebinde": 4.2,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 4.2,
+        "datum": "2026-09-19T23:14:18.809Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Milch und -erzeugnisse (Laktose)",
+      "Milch und -erzeugnisse (Laktose)"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.809Z",
+    "updatedAt": "2026-09-19T23:14:18.809Z"
+  },
+  {
+    "id": "grana-padano",
+    "betrieb": "Test Betrieb",
+    "name": "Grana Padano gehobelt, 0,5 KG",
+    "artikelnummer": "18858570",
+    "kategorie": "Milchprodukte",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 18.78,
+    "preisProGebinde": 18.78,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 18.78,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [
+      "Eier und -erzeugnisse",
+      "Milch und -erzeugnisse (Laktose)"
+    ],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "ifri-rucola",
+    "betrieb": "Test Betrieb",
+    "name": "IFRI 5 Rucola, gewaschen, 500g",
+    "artikelnummer": "18399714",
+    "kategorie": "Salat",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Beutel",
+    "einheit": "Beutel",
+    "einheitspreis": 5.85,
+    "preisProGebinde": 5.85,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 5.85,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-schnittlauch",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Kräuter, Schnittlauch, 100g Bund",
+    "artikelnummer": "14761249",
+    "kategorie": "Kräuter",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 1.82,
+    "preisProGebinde": 1.82,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.82,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-petersilie",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Kräuter, Petersilie kraus, 250g Bund",
+    "artikelnummer": "14761003",
+    "kategorie": "Kräuter",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 1.65,
+    "preisProGebinde": 1.65,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.65,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-tomaten-cherry",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Cherrystrauchtomaten Premium, 1 KG",
+    "artikelnummer": "14760037",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 8.68,
+    "preisProGebinde": 8.68,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 8.68,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-zwiebeln-rot",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Zwiebeln, rot, geschält, 5 KG",
+    "artikelnummer": "15033079",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 1.99,
+    "preisProGebinde": 1.99,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 1.99,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-radieschen",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Radieschen, ohne Grün, 1 KG",
+    "artikelnummer": "14758263",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 2.06,
+    "preisProGebinde": 2.06,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 2.06,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": true,
+    "notizen": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-lauchzwiebeln",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Lauchzwiebeln, 120g Bund",
+    "artikelnummer": "14757709",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Bund",
+    "einheit": "Bund",
+    "einheitspreis": 0.52,
+    "preisProGebinde": 0.52,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 0.52,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-salatmischung-wildkraeuter",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Salatmischung, Wildkräuter, 250g",
+    "artikelnummer": "14667671",
+    "kategorie": "Salat",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "Schale",
+    "einheit": "Schale",
+    "einheitspreis": 4.65,
+    "preisProGebinde": 4.65,
+    "vorherigerPreisProGebinde": null,
+    "preisAenderungProzent": null,
+    "preisHistorie": [
+      {
+        "preis": 4.65,
+        "datum": "2026-09-19T23:14:18.808Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.808Z"
+  },
+  {
+    "id": "og-knoblauch",
+    "betrieb": "Test Betrieb",
+    "name": "O+G Knoblauch, Beutel, 1 KG",
+    "artikelnummer": "14757556",
+    "kategorie": "Gemüse",
+    "lieferantId": "seed-chefs-culinar",
+    "gebindegroesse": 1,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "einheitspreis": 9.1,
+    "preisProGebinde": 9.1,
+    "vorherigerPreisProGebinde": 8.54,
+    "preisAenderungProzent": 6.6,
+    "preisHistorie": [
+      {
+        "preis": 8.54,
+        "datum": "2026-09-19T23:14:18.808Z"
+      },
+      {
+        "preis": 9.1,
+        "datum": "2026-09-19T23:14:18.870Z"
+      }
+    ],
+    "mindestbestand": null,
+    "aktuellerBestand": null,
+    "allergene": [],
+    "allergeneUnbekannt": false,
+    "notizen": "Einkaufsliste 12 Monate",
+    "createdAt": "2026-09-19T23:14:18.808Z",
+    "updatedAt": "2026-09-19T23:14:18.870Z"
+  }
+]

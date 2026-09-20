@@ -1,0 +1,15 @@
+[
+  {
+    "id": "784af401-6cfa-493c-9738-9a69f20ad6e8",
+    "betrieb": "Test Betrieb",
+    "bereichId": "ca4f9e9c-c321-43e6-b534-1cbd4dc3c589",
+    "datum": "2026-09-19",
+    "taeglichStatus": {
+      "Arbeitsflächen & Schneidbretter": "X"
+    },
+    "verantwortlicher": "MK",
+    "notizen": "",
+    "createdAt": "2026-09-19T23:14:11.006Z",
+    "updatedAt": "2026-09-19T23:14:11.006Z"
+  }
+]

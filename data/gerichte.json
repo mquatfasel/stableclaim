@@ -1,0 +1,29 @@
+[
+  {
+    "id": "e63de5c8-bec2-49fc-b72f-c5821f2bec6b",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Wiener Schnitzel",
+    "nummer": "",
+    "verkaufspreis": null,
+    "allergenStatus": {},
+    "zusatzstoffeAktiv": [],
+    "status": "Offen",
+    "createdAt": "2026-09-19T23:26:34.533Z",
+    "updatedAt": "2026-09-19T23:26:34.533Z"
+  },
+  {
+    "id": "b0791b79-3b83-4f60-909b-b63315adec5b",
+    "betrieb": "Test Betrieb",
+    "name": "Caesar Salad",
+    "nummer": "",
+    "verkaufspreis": 14.5,
+    "allergenStatus": {
+      "Eier und -erzeugnisse": "X",
+      "Fisch und -erzeugnisse": "?"
+    },
+    "zusatzstoffeAktiv": [],
+    "status": "Offen",
+    "createdAt": "2026-09-19T23:14:27.263Z",
+    "updatedAt": "2026-09-19T23:14:27.263Z"
+  }
+]

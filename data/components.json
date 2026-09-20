@@ -1,0 +1,210 @@
+[
+  {
+    "id": "og-knoblauch",
+    "name": "O+G Knoblauch, Beutel, 1 KG",
+    "kategorie": "Gemüse",
+    "einheit": "kg",
+    "preisProEinheit": 8.54,
+    "allergene": [],
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14757556",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "og-salatmischung-wildkraeuter",
+    "name": "O+G Salatmischung, Wildkräuter, 250g",
+    "kategorie": "Salat",
+    "einheit": "Schale",
+    "preisProEinheit": 4.65,
+    "allergene": [],
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14667671",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "og-lauchzwiebeln",
+    "name": "O+G Lauchzwiebeln, 120g Bund",
+    "kategorie": "Gemüse",
+    "einheit": "Bund",
+    "preisProEinheit": 0.52,
+    "allergene": [],
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14757709",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "og-radieschen",
+    "name": "O+G Radieschen, ohne Grün, 1 KG",
+    "kategorie": "Gemüse",
+    "einheit": "kg",
+    "preisProEinheit": 2.06,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14758263",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "og-zwiebeln-rot",
+    "name": "O+G Zwiebeln, rot, geschält, 5 KG",
+    "kategorie": "Gemüse",
+    "einheit": "kg",
+    "preisProEinheit": 1.99,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "15033079",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "og-tomaten-cherry",
+    "name": "O+G Cherrystrauchtomaten Premium, 1 KG",
+    "kategorie": "Gemüse",
+    "einheit": "kg",
+    "preisProEinheit": 8.68,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14760037",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "og-petersilie",
+    "name": "O+G Kräuter, Petersilie kraus, 250g Bund",
+    "kategorie": "Kräuter",
+    "einheit": "Bund",
+    "preisProEinheit": 1.65,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14761003",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "og-schnittlauch",
+    "name": "O+G Kräuter, Schnittlauch, 100g Bund",
+    "kategorie": "Kräuter",
+    "einheit": "Bund",
+    "preisProEinheit": 1.82,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14761249",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "ifri-rucola",
+    "name": "IFRI 5 Rucola, gewaschen, 500g",
+    "kategorie": "Salat",
+    "einheit": "Beutel",
+    "preisProEinheit": 5.85,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "18399714",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "grana-padano",
+    "name": "Grana Padano gehobelt, 0,5 KG",
+    "kategorie": "Milchprodukte",
+    "einheit": "kg",
+    "preisProEinheit": 18.78,
+    "allergene": [
+      "Eier und -erzeugnisse",
+      "Milch und -erzeugnisse"
+    ],
+    "lieferant": "CHEFS CULINAR (Hersteller: MARR S.P.A.)",
+    "artikelnummer": "18858570",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "base-culinar-schmand",
+    "name": "Base Culinar Schmand 24%, 5 KG Eimer",
+    "kategorie": "Milchprodukte",
+    "einheit": "kg",
+    "preisProEinheit": 4.2,
+    "allergene": [
+      "Laktose",
+      "Milch und -erzeugnisse"
+    ],
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "60096181",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "mascarpone",
+    "name": "Mascarpone mind. 81%, 2 KG Eimer",
+    "kategorie": "Milchprodukte",
+    "einheit": "kg",
+    "preisProEinheit": 9.3,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR (Casarelli)",
+    "artikelnummer": "14607103",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "greco-feta",
+    "name": "Greco Feta, Schaf-/Ziegenmilch, 48% Fett i.Tr.",
+    "kategorie": "Milchprodukte",
+    "einheit": "kg",
+    "preisProEinheit": 14.44,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR (Greco)",
+    "artikelnummer": "10315200",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "tk-frutti-di-mare",
+    "name": "TK Frutti di Mare, Meeresfrüchtemischung, blanchiert",
+    "kategorie": "Fisch",
+    "einheit": "kg",
+    "preisProEinheit": 9.98,
+    "allergene": [
+      "Weichtiere und -erzeugnisse",
+      "Krebstiere und -erzeugnisse"
+    ],
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "60037861",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "black-tiger-garnelen",
+    "name": "TK Star Culinar Black Tiger Garnelen, ohne Schale",
+    "kategorie": "Fisch",
+    "einheit": "kg",
+    "preisProEinheit": 16.19,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR (Star Culinar)",
+    "artikelnummer": "14397820",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "tk-pfifferlinge",
+    "name": "TK Base Culinar Pfifferlinge, blanchiert",
+    "kategorie": "Gemüse",
+    "einheit": "kg",
+    "preisProEinheit": 15.02,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "14384080",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  },
+  {
+    "id": "base-culinar-wuerfelspeck",
+    "name": "Base Culinar Würfelspeck, gepökelt, 8x8mm",
+    "kategorie": "Fleisch",
+    "einheit": "kg",
+    "preisProEinheit": 5.5,
+    "allergene": [],
+    "allergeneHinweis": "Kann Spuren von Senf, Sellerie enthalten",
+    "lieferant": "CHEFS CULINAR",
+    "artikelnummer": "60169275",
+    "quelle": "Einkaufsliste 12 Monate"
+  },
+  {
+    "id": "valenzi-preiselbeeren",
+    "name": "Valenzi Kulturpreiselbeeren, 2 KG Eimer",
+    "kategorie": "Sonstiges",
+    "einheit": "kg",
+    "preisProEinheit": 7.75,
+    "allergene": null,
+    "lieferant": "CHEFS CULINAR (Valenzi)",
+    "artikelnummer": "14002328",
+    "quelle": "Einkaufsliste 12 Monate (Preis geprüft, Allergene noch offen)"
+  }
+]

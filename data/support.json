@@ -1,0 +1,14 @@
+[
+  {
+    "id": "36784442-4054-49f2-8f60-014db706c7b7",
+    "betrieb": "Test Betrieb",
+    "betreff": "Login klappt nicht",
+    "nachricht": "Fehler beim Login",
+    "kategorie": "Zugang / Account",
+    "dringlichkeit": "hoch",
+    "status": "offen",
+    "erstelltVon": "Test User",
+    "createdAt": "2026-09-19T23:14:11.036Z",
+    "updatedAt": "2026-09-19T23:14:11.036Z"
+  }
+]

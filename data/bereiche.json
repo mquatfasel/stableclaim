@@ -1,0 +1,18 @@
+[
+  {
+    "id": "c60c9082-4fe7-4232-a176-9cc1858918c5",
+    "betrieb": "Test Betrieb GmbH",
+    "name": "Küche",
+    "typ": "küche",
+    "erstelltVon": "b0cdad7a-f623-423c-a254-05bcef5356c2",
+    "erstelltAm": "2026-09-19T23:26:11.431Z"
+  },
+  {
+    "id": "ca4f9e9c-c321-43e6-b534-1cbd4dc3c589",
+    "betrieb": "Test Betrieb",
+    "name": "Küche",
+    "typ": "Küche",
+    "erstelltVon": "00676bad-7d03-44ff-9240-cc9f7f27e938",
+    "erstelltAm": "2026-09-19T23:14:10.927Z"
+  }
+]

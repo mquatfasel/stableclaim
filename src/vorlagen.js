@@ -208,5 +208,5 @@ function renderReinigungsplanVorlage({ betrieb, bereich }) {
 </html>`;
 }
 
-module.exports = { renderHaccpVorlage, renderReinigungsplanVorlage };
+module.exports = { renderHaccpVorlage, renderReinigungsplanVorlage, reinigungsVorschlaegeFuer };
 

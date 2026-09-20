@@ -1,0 +1,19 @@
+[
+  {
+    "id": "4fa74d88-61ff-4893-be63-a4d81eea6f6f",
+    "betrieb": "Test Betrieb",
+    "templateId": "tmpl-kuehlhaus",
+    "custom": false,
+    "name": "Temperaturkontrolle Kühlhaus",
+    "kategorie": "Wareneingang & Lager",
+    "intervall": "täglich",
+    "equipmentId": null,
+    "sollwertMin": 0,
+    "sollwertMax": 7,
+    "einheit": "°C",
+    "beschreibung": "Kerntemperatur beim morgendlichen Check dokumentieren.",
+    "aktiv": true,
+    "createdAt": "2026-09-19T23:14:04.561Z",
+    "updatedAt": "2026-09-19T23:14:04.561Z"
+  }
+]

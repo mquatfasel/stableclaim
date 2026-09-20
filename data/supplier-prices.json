@@ -1,0 +1,16 @@
+[
+  {
+    "id": "8f25f5bd-30ac-4be9-9581-56beae493af9",
+    "betrieb": "Test Betrieb",
+    "supplierId": "seed-chefs-culinar",
+    "artikelName": "Rinderfilet",
+    "kategorie": "",
+    "gebindegroesse": 5,
+    "gebindeeinheit": "kg",
+    "einheit": "kg",
+    "preisProGebinde": 159,
+    "einheitspreis": 31.8,
+    "createdAt": "2026-09-19T23:14:27.374Z",
+    "updatedAt": "2026-09-19T23:14:27.374Z"
+  }
+]
